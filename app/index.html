@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>Checkers</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/font-awesome-bower/css/font-awesome.css">
+
+    <!-- compiled during dev time -->
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+</head>
+<body>
+
+<div class='mp-navbar'>
+    <div class="container">
+        <div class="navbar-header">
+            <a class="header-logo-pc" href="#">Checkers</a>
+            <div class="header-breadcrumb">outlet "mobileTitle"</div>
+
+            <!--3 stripes button-->
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/">Home</a></li>
+                <li><a href="#/board/1">Board 1</a></li>
+                <li><a href="#/contact">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class='main' ng-view>  <!-- container has width imposed by bootstrap , not good for table views ...-->
+</div>
+
+<footer>
+    <hr/>
+    <p>&copy; 2015 SadTom</p>
+
+    <p><span class="glyphicon glyphicon-phone"></span> Mobile optimized ... coming soon</p>
+</footer>
+
+
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script src="bower_components/angularjs/angular.min.js"></script>
+<script src="bower_components/angular-route/angular-route.min.js"></script>
+<script src="app.js"></script>
+<script src="views/board/board.js"></script>  <!--automate adding of common scripts-->
+<script src="components/ch-square/ch-square.js"></script>  <!--automate adding of common scripts-->
+
+
+
+<script src="bootstrap-app.js"></script>
+</html>

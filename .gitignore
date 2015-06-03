@@ -1,0 +1,19 @@
+#IDE related
+*.iml
+.idea/*
+#!idea/runConfigurations
+
+
+#npm
+node_modules/
+bower_components/
+
+#Build related
+target/
+servers/
+
+#compiled during development
+app/css/*.css
+
+#macOS
+.DS_Store

@@ -5,8 +5,7 @@ var reload = browserSync.reload;
 
 gulp.task('default', ['develop']);
 
-gulp.task('develop', function() {
-  gulp.run('serve');
+gulp.task('develop', ['serve'], function() {
 });
 
 
@@ -27,7 +26,8 @@ gulp.task('serve', ['less'], function() {
     }
   });
 
-  gulp.watch(['*.html',  '*.js', 'views/*/*'], {cwd: 'app'}, reload);   // cwd = current working dir.
+    // notice: '**/*' or '/**/*' will watch entire drive
+  gulp.watch(['./**/*.html',  './**/*.js', '!./bower_components/**'], {cwd: 'app'}, reload);   // cwd = current working dir.
 
   gulp.watch('app/css/*.less', ['less']);  // inject pre-processed css without page reload.
 });

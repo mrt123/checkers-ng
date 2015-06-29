@@ -13,16 +13,19 @@ gulp.task('less', function () {
       .pipe(less({
         paths: []
       }))
-      .pipe(gulp.dest('app/css'));
+      .pipe(gulp.dest('app/css'))
+      .pipe(reload({ stream:true }));
 });
 
 // watch files for changes and reload
-gulp.task('serve', function() {
+gulp.task('serve', ['less'], function() {
   browserSync({
     server: {
       baseDir: 'app'
     }
   });
 
-  gulp.watch(['*.html',  '*.js', 'views/*/*', 'css/*.css'], {cwd: 'app'}, reload);   // cwd = current working dir.
+  gulp.watch(['*.html',  '*.js', 'views/*/*'], {cwd: 'app'}, reload);   // cwd = current working dir.
+
+  gulp.watch('app/css/*.less', ['less']);  // inject pre-processed css without page reload.
 });

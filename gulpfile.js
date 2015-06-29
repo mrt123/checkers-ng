@@ -3,8 +3,10 @@ var less = require('gulp-less');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
-gulp.task('default', function() {
+gulp.task('default', ['develop']);
 
+gulp.task('develop', function() {
+  gulp.run('serve');
 });
 
 

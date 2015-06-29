@@ -1,0 +1,40 @@
+body {
+  background: rgb(43,43,43);
+  color: grey;
+}
+
+
+#board_frame {
+  padding: 20px;
+  background: yellowgreen url('../img/board_frame.jpg') no-repeat;
+  width: 520px;
+  height: 520px;
+  margin: 0 auto;
+
+  #board {
+    width: 480px;
+    height: 480px;
+    margin: 0px;
+
+    #virtualBoard {
+      position: absolute;
+      height: 480px;
+      width: 480px;
+    }
+  }
+}
+
+ch-square div {
+  display: block;
+  float: left;
+  width: 60px;
+  height: 60px;
+
+  &.white {
+    background: url('../img/white.jpg') no-repeat;
+  }
+
+  &.black {
+    background: url('../img/black.jpg') no-repeat;
+  }
+}

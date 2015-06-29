@@ -1,7 +1,8 @@
 var app = angular.module('app', [
     'ngRoute',
     'app.board',   // automate adding of routes & components
-    'ch-square'
+    'ch-square',
+    'ch-draggable'
 ], function(){
 
 });

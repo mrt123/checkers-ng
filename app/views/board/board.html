@@ -1,11 +1,12 @@
 <div id="board_frame">
     <div id="board">
-
-        <div ng-repeat="i in squares">
-
-            <ch-square color="{{i.color}}" number="{{i.number}}">
-
+        <div id="virtualBoard">
+            <div ch-draggable>Drag ME</div>
         </div>
 
+
+        <div ng-repeat="i in squares">
+            <ch-square color="{{i.color}}" number="{{i.number}}"></ch-square>
+        </div>
     </div>
 </div>

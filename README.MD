@@ -6,3 +6,4 @@ NOTE TO SELF:
 
 NEXT TODO:
 * design draggable piece
+* automate adding of routes & components  (eg. use node readable object)

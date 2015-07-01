@@ -5,5 +5,4 @@ NOTE TO SELF:
 ** squares serve as backdrop
 
 NEXT TODO:
-* design draggable piece
-* automate adding of routes & components  (eg. use node readable object)
+* virtual board module

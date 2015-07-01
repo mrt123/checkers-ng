@@ -11,8 +11,9 @@
   "devDependencies": {
     "browser-sync": "*",
     "gulp": "*",
-    "gulp-less": "*",
+    "gulp-angular-modules": "^0.1.8",
     "gulp-concat": "*",
+    "gulp-less": "*",
     "gulp-sourcemaps": "*"
   }
 }

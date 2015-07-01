@@ -12,6 +12,7 @@ bower_components/
 target/
 servers/
 app/_dist
+app/gulp-angular-modules.js
 
 #compiled during development
 app/css/*.css

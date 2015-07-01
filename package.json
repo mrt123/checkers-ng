@@ -9,8 +9,10 @@
     "start": "TODO:  start file watchers, start server, start lifeReload"
   },
   "devDependencies": {
+    "browser-sync": "*",
     "gulp": "*",
     "gulp-less": "*",
-    "browser-sync": "*"
+    "gulp-concat": "*",
+    "gulp-sourcemaps": "*"
   }
 }

@@ -11,7 +11,6 @@ gulp.task('default', ['develop']);
 gulp.task('develop', ['serve'], function() {
 });
 
-
 gulp.task('less', function () {
   return gulp.src('app/css/*.less')
       .pipe(less({
@@ -21,37 +20,40 @@ gulp.task('less', function () {
       .pipe(reload({ stream:true }));
 });
 
-gulp.task('concat', function () {
+gulp.task("modules", function() {
+
+    var moduesOpts = {
+        name: "gulp-angular-modules",
+        modules: ['ngRoute']
+    };
+
+    return gulp.src(["app/views/**/*.js", "app/components/**/*.js"])
+        .pipe(angularModules("gulp-angular-modules.js", moduesOpts)) // Name of the file generated
+        .pipe(gulp.dest("./app/"))
+});
+
+gulp.task('concat' , ['modules'] ,function () {
     gulp.src(["*.js", "views/**/*.js", "components/**/*.js"], {cwd: 'app'})
         .pipe(sourcemaps.init())
         .pipe(concat('_app.js'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./app/_dist/'))
-});
-
-gulp.task("modules", function() {
-
-  var moduleOptions = {
-    name: "gulp-angular-modules",
-    modules: ['ngRoute']
-  };
-
-  return gulp.src(["app/views/**/*.js", "app/components/**/*.js"])
-      .pipe(angularModules("gulp-angular-modules.js", moduleOptions)) // Name of the file generated
-      .pipe(gulp.dest("./app/"))
+        .pipe(gulp.dest('./app/_dist/'));
 });
 
 // watch files for changes and reload (order of dependencies matters).
-gulp.task('serve', ['less', 'modules', 'concat'], function() {
-  browserSync({
-    server: {
-      baseDir: 'app'
-    }
-  });
+gulp.task('serve', ['less', 'modules', 'concat'], function () {
+    browserSync({
+        server: {
+            baseDir: 'app'
+        }
+    });
+
+    var watchOpts = {
+        cwd: 'app'
+    };
 
     // notice: '**/*' or '/**/*' will watch entire drive
-    gulp.watch(["*.js", "views/**/*.js", "components/**/*.js"], {cwd: 'app'}, ['concat', 'modules', reload]);  // TODO: pipe watch output to modules without getting src again!
-    gulp.watch(['./**/*.html'], {cwd: 'app'}, reload);
-
-  gulp.watch('app/css/*.less', ['less']);  // inject pre-processed css without page reload.
+    gulp.watch(["!bootstrap-app.js", "*.js", "views/**/*.js", "components/**/*.js"], watchOpts, ['modules', 'concat', reload]);  // TODO: pipe watch output to modules without getting src again!
+    gulp.watch(['./**/*.html'], watchOpts, reload);
+    gulp.watch('app/css/*.less', ['less']);  // inject pre-processed css without page reload.
 });

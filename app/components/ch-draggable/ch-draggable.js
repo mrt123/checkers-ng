@@ -48,7 +48,7 @@ angular.module('ch-draggable', []).
                 //
                 //console.log("screenX:" + event.screenX);
                 //console.log("screenY:" + event.screenY);
-                console.log(getCenterXY());
+                //console.log(getCenterXY());
             }
 
             function getCenterXY(){

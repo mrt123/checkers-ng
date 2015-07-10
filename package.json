@@ -3,11 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {},
-  "scripts": {
-    "prestart": "npm install",
-    "postinstall": "bower install",
-    "start": "TODO:  start file watchers, start server, start lifeReload"
-  },
   "devDependencies": {
     "browser-sync": "*",
     "gulp": "*",

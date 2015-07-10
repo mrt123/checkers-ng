@@ -18,8 +18,7 @@ body {
 
     #virtualBoard {
       position: absolute;
-      height: 480px;
-      width: 480px;
+      //must be 0x0 for elements behind to register mouse events.
     }
   }
 }
@@ -36,5 +35,14 @@ ch-square div {
 
   &.black {
     background: url('../img/black.jpg') no-repeat;
+  }
+
+  .matrix {
+    width: 60px;
+    height: 60px;
+
+    &.highlight {
+      background: url('../img/misc/target1.png') no-repeat;
+    }
   }
 }

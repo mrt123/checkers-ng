@@ -17,9 +17,31 @@ module.directive('chSquare', [ function () {
             foods: '='
         },
         link: function (scope, element, attr) {
-            //if(attr.number != undefined) debugger;
+            element.on('mousedown', function(event) {
+                // Prevent 'default' dragging of this square
+                event.preventDefault();
+            });
+
+            element.on('mouseenter', function(){
+                highlight(element);
+            });
+
+            element.on('mouseleave', function(){
+                removeHilight(element);
+            });
+
         },
-        template: '<div class="{{color}}">{{number}}</div>'
+        template: '<div class="{{color}}"><div class="matrix">{{number}}</div></div>'
+
 
     };
+
+    function highlight(element) {
+        element.find('.matrix').addClass("highlight");
+    }
+
+    function removeHilight(element) {
+        element.find('.matrix').removeClass("highlight");
+    }
+
 }]);

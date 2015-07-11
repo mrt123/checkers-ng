@@ -9,7 +9,7 @@ node_modules/
 bower_components/
 
 #Build related
-target/
+app/build
 servers/
 app/_dist
 app/gulp-angular-modules.js

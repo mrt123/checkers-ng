@@ -41,9 +41,9 @@ gulp.task("modules", function() {
 gulp.task('concat' , ['modules'] ,function () {
     gulp.src(jsFiles, {cwd: 'app'})
         .pipe(sourcemaps.init())
-        .pipe(concat('_app.js'))
+        .pipe(concat('app_dev.js'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./app/_dist/'));
+        .pipe(gulp.dest('./app/build/dev/'));
 });
 
 // watch files for changes and reload (order of dependencies matters).

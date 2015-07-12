@@ -6,3 +6,4 @@ NOTE TO SELF:
 
 NEXT TODO:
 * virtual board module
+* implement relaod counter for browserSync

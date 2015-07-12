@@ -6,11 +6,10 @@ var sourcemaps = require('gulp-sourcemaps');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var jsFiles = [
-    "*.js", 
-    "views/**/*.js",
-    "components/**/*.js"
+    "./app/*.js",
+    "./app/views/**/*.js",
+    "./app/components/**/*.js"
 ];
-
 
 gulp.task('default', ['develop']);
 
@@ -35,11 +34,11 @@ gulp.task("modules", function() {
 
     return gulp.src(["app/views/**/*.js", "app/components/**/*.js"])
         .pipe(angularModules("gulp-angular-modules.js", moduesOpts)) // Name of the file generated
-        .pipe(gulp.dest("./app/"))
+        .pipe(gulp.dest("./app/build/dev/"))
 });
 
-gulp.task('concat' , ['modules'] ,function () {
-    gulp.src(jsFiles, {cwd: 'app'})
+gulp.task('concat' , [] ,function () {
+    gulp.src(jsFiles, {})
         .pipe(sourcemaps.init())
         .pipe(concat('app_dev.js'))
         .pipe(sourcemaps.write())
@@ -51,15 +50,12 @@ gulp.task('serve', ['less', 'modules', 'concat'], function () {
     browserSync({
         server: {
             baseDir: 'app'
-        }
+        },
+        open: false
     });
 
-    var watchOpts = {
-        cwd: 'app'
-    };
-
     // notice: '**/*' or '/**/*' will watch entire drive
-    gulp.watch(jsFiles, watchOpts, ['modules', 'concat', reload]);  // TODO: pipe watch output to modules without getting src again!
-    gulp.watch(['./**/*.html'], watchOpts, reload);
+    gulp.watch(jsFiles, {}, ['modules', 'concat', reload]);  // TODO: pipe watch output to modules without getting src again!
+    gulp.watch(['./**/*.html'], {}, reload);
     gulp.watch('app/css/*.less', ['less']);  // inject pre-processed css without page reload.
 });

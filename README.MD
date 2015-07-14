@@ -6,4 +6,6 @@ NOTE TO SELF:
 
 NEXT TODO:
 * virtual board module
-* implement relaod counter for browserSync
+* implement "time since last reloaded" counter for browserSync
+* figure out how to reload browser on serve start
+* create index view and move main styles to there

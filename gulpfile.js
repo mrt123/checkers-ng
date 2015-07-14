@@ -10,19 +10,21 @@ var jsFiles = [
     "./app/views/**/*.js",
     "./app/components/**/*.js"
 ];
+var cssFiles = ['app/css/**/*.less', 'app/views/**/*.less', 'app/components/**/*.less'];
 
 gulp.task('default', ['develop']);
-
-gulp.task('develop', ['serve'], function() {
-});
+gulp.task('develop', ['serve']);
 
 gulp.task('less', function () {
-  return gulp.src('app/css/*.less')
-      .pipe(less({
-        paths: []
-      }))
-      .pipe(gulp.dest('app/css'))
-      .pipe(reload({ stream:true }));
+    return gulp.src(cssFiles)
+        .pipe(sourcemaps.init())
+        .pipe(less({
+            paths: []
+        }))
+        .pipe(concat('app_dev.css'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('app/build/css'))  // must be same depth as views/ to match relative path to img/
+        .pipe(browserSync.reload({ stream:true }));
 });
 
 gulp.task("modules", function() {
@@ -57,5 +59,5 @@ gulp.task('serve', ['less', 'modules', 'concat'], function () {
     // notice: '**/*' or '/**/*' will watch entire drive
     gulp.watch(jsFiles, {}, ['modules', 'concat', reload]);  // TODO: pipe watch output to modules without getting src again!
     gulp.watch(['./**/*.html'], {}, reload);
-    gulp.watch('app/css/*.less', ['less']);  // inject pre-processed css without page reload.
+    gulp.watch(cssFiles, ['less']);  // inject pre-processed css without page reload.
 });

@@ -44,8 +44,8 @@ angular.module('ch-draggable', []).
 
             function getCenterXY(){
                 return {
-                    x: element.css("top")+30,
-                    y: element.css("left")+30
+                    x: parseInt(element.css("top")) + 30,
+                    y: parseInt(element.css("left")) + 30
                 }
             }
 

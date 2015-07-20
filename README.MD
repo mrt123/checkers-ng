@@ -8,4 +8,22 @@ NEXT TODO:
 * virtual board module
 * implement "time since last reloaded" counter for browserSync
 * figure out how to reload browser on serve start
-* create index view and move main styles to there
+
+
+PROBLEM:
+* draggable is aware of its position
+* field is not aware draggable is hovering over it
+
+SOLUTION:
+* as part of draggable interface : provide callback
+** executed in owning controller (Board)
+** eg: dragAction
+A
+** Sudo code:
+dragAction = function(x,y) {
+    Int fieldHovered = vBoard.getField(x,y);
+
+
+
+
+}

@@ -10,7 +10,8 @@ module.config(['$routeProvider', function ($routeProvider) {
 module.controller('BoardCtrl', [
     '$scope',
     '$routeParams',
-    function (scope, $routeParams) {
+    'virtualBoard',
+    function (scope, $routeParams, vBoard) {
 
         scope.squares = getSquaresDefinition();
 
@@ -18,19 +19,20 @@ module.controller('BoardCtrl', [
 
         function getSquaresDefinition() {
             var squares = [];
+            var conditions;
 
-            // iterate to produce 64 squares
-            for (var i = 1; i <= 64; i++) {
+            for (var i = 1; i <= 64; i++) {  // iterate to produce 64 squares
 
-                // define row:
-                var rowNumber = Math.ceil(i / 8);
+                var rowNumber = Math.ceil(i / 8);  // define row:
+                conditions = vBoard.getConditions(rowNumber, i);
 
                 // define color:
                 var color;
-                if (rowNumber % 2 == 1) {
-                    color = i % 2 == 1 ? 'white' : 'black'
-                } else {
-                    color = i % 2 == 1 ? 'black' : 'white'
+                if (conditions.blacks) {
+                    color = 'black';
+                }
+                else {
+                    color = 'white';
                 }
 
                 // construct definition:
@@ -40,6 +42,8 @@ module.controller('BoardCtrl', [
                     color: color,
                     playable: color === 'black'
                 };
+
+
                 squares.push(squareDefinition);
             }
             return squares;

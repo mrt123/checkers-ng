@@ -1,0 +1,18 @@
+#board_frame {
+  padding: 20px;
+  background: yellowgreen url('/img/board_frame.jpg') no-repeat;
+  width: 520px;
+  height: 520px;
+  margin: 0 auto;
+
+  #board {
+    width: 480px;
+    height: 480px;
+    margin: 0px;
+
+    #virtualBoard {
+      position: absolute;
+      //must be 0x0 for elements behind to register mouse events.
+    }
+  }
+}

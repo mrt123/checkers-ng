@@ -3,15 +3,6 @@ angular.module('ch-draggable', []).
         return function(scope, element, attr) {
             var startX = 0, startY = 0;
             var  cssX = 0, cssY = 0;
-            element.css({
-                position: 'absolute',
-                backgroundColor: 'white',
-                cursor: 'pointer',
-                display: 'block',
-                width: '60px',
-                height: '60px'
-                // top & left are reserved for movement
-            });
 
             // assign event listeners on mousedown!
             element.on('mousedown', function(event) {

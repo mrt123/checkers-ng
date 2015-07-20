@@ -16,7 +16,8 @@ angular.module('app.virtualBoard', []).service('virtualBoard', function () {
     this.createField = function(rowNo, fieldNo){
         return {
             x: rowNo * 30,
-            y: fieldNo * 30
+            y: fieldNo/rowNo * 30,
+            number: fieldNo
         }
     };
 

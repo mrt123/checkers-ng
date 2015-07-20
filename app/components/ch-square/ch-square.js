@@ -12,6 +12,7 @@ module.directive('chSquare', [ function () {
             // & create a delegate function
             //for @var remember to use hyphen based notation on bound attributes.
             color: '@',
+            playable: '@',
             number: '@',
             actionIconAction: '&',
             foods: '='
@@ -23,11 +24,11 @@ module.directive('chSquare', [ function () {
             });
 
             element.on('mouseenter', function(){
-                highlight(element);
+                highlight(element, attr);
             });
 
             element.on('mouseleave', function(){
-                removeHilight(element);
+                removeHilight(element, attr);
             });
 
         },
@@ -36,11 +37,13 @@ module.directive('chSquare', [ function () {
 
     };
 
-    function highlight(element) {
+    function highlight(element, attr) {
+        if (attr.playable === "true")
         element.find('.matrix').addClass("highlight");
     }
 
-    function removeHilight(element) {
+    function removeHilight(element, attr) {
+        if (attr.playable === "true")
         element.find('.matrix').removeClass("highlight");
     }
 

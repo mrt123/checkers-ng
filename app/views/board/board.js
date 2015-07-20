@@ -37,7 +37,8 @@ module.controller('BoardCtrl', [
                 var squareDefinition = {
                     number: i,
                     row: rowNumber,
-                    color: color
+                    color: color,
+                    playable: color === 'black'
                 };
                 squares.push(squareDefinition);
             }

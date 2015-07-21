@@ -19,7 +19,7 @@ angular.module('ch-draggable', []).
                 var  cssX = 0, cssY = 0;
 
                 // assign event listeners on mousedown!
-                element.on('mousedown', function(event) {
+                element.on('mousedown', function(event) { console.log('m down');
                     // Prevent 'default' dragging of selected content
                     event.preventDefault();
                     startX = event.screenX - cssX;
@@ -28,7 +28,7 @@ angular.module('ch-draggable', []).
                     $document.on('mouseup', mouseup);
                 });
 
-                function mouseMove(event) {
+                function mouseMove(event) { console.log('move');
                     // update css values to match relative to container.
                     cssX = event.screenX - startX;
                     cssY = event.screenY - startY;

@@ -13,52 +13,22 @@ module.controller('BoardCtrl', [
     'virtualBoard',
     function (scope, $routeParams, vBoard) {
 
-        scope.squares = getSquaresDefinition();
+        scope.squares = vBoard.getFields();
 
         scope.hover = function(x, y) {
-          //console.log(x, y);
-            var field = vBoard.getField(x, y);
+            console.log("hover:   " +x, y);
+            document.vBoard = vBoard;
+            var field = vBoard.getApproxField(x, y);
             if (field !== null) {
                 //var square = scope.squares[field.number];
                 //square.color = 'orange';
-                console.log(field.number)
+                console.log("xyz" +field.number);
+                console.log("xyz" +field.number);
             }
 
         };
 
         // ---------- PRIVATE FUNCTIONS----START---
-
-        function getSquaresDefinition() {
-            var squares = [];
-            var conditions;
-
-            for (var i = 1; i <= 64; i++) {  // iterate to produce 64 squares
-
-                var rowNumber = Math.ceil(i / 8);  // define row:
-                conditions = vBoard.getConditions(rowNumber, i);
-
-                // define color:
-                var color;
-                if (conditions.blacks) {
-                    color = 'black';
-                }
-                else {
-                    color = 'white';
-                }
-
-                // construct definition:
-                var squareDefinition = {
-                    number: i,
-                    row: rowNumber,
-                    color: color,
-                    playable: color === 'black'
-                };
-
-
-                squares.push(squareDefinition);
-            }
-            return squares;
-        }
     }])
 ;
 

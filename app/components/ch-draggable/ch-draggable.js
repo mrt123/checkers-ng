@@ -19,13 +19,14 @@ angular.module('ch-draggable', []).
                 var  cssX = 0, cssY = 0;
 
                 // assign event listeners on mousedown!
-                element.on('mousedown', function(event) { console.log('m down');
+                element.on('mousedown', function(event) {
                     // Prevent 'default' dragging of selected content
                     event.preventDefault();
                     startX = event.screenX - cssX;
                     startY = event.screenY - cssY;
                     $document.on('mousemove', mouseMove);
                     $document.on('mouseup', mouseup);
+                    element.addClass('active');
                 });
 
                 function mouseMove(event) { console.log('move');
@@ -49,6 +50,7 @@ angular.module('ch-draggable', []).
                 function mouseup() {
                     $document.off('mousemove', mouseMove);
                     $document.off('mouseup', mouseup);
+                    element.removeClass('active');
                 }
 
                 function logMovement(){

@@ -31,8 +31,8 @@ angular.module('app.Field', []).factory('Field', function () {
 
     Field.prototype.generateLegalMoves = function(){
         var legalMoves = [];
-        var onLeftEdge = this.isFirstFromLeft(this);
-        var onRightEdge = this.isFirstFromRight(this);
+        var onLeftEdge = this.isFirstFromLeft();
+        var onRightEdge = this.isFirstFromRight();
 
         if (this.row > 1 && this.color === 'black') {
             if (!onRightEdge) {
@@ -45,12 +45,12 @@ angular.module('app.Field', []).factory('Field', function () {
         return legalMoves;
     };
 
-    Field.prototype.isFirstFromRight= function(field) {
-        return field.column % 8 === 0;
+    Field.prototype.isFirstFromRight= function() {
+        return this.column % 8 === 0;
     };
 
-    Field.prototype.isFirstFromLeft= function(field) {
-        return field.column % 8 === 1;
+    Field.prototype.isFirstFromLeft= function() {
+        return this.column % 8 === 1;
     };
 
     return Field;

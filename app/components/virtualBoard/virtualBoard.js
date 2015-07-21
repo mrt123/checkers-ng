@@ -46,7 +46,7 @@ angular.module('app.virtualBoard', []).service('virtualBoard', function () {
         var fields =  this.getPlayableFields();
         var fieldToReturn = null;
 
-        for (var i = 0; fields.length; i++) {
+        for (var i = 0; i < fields.length; i++) {
             var field = fields[i];
             if (
                 this.isClose(field.x, x, snapThreshold) &&

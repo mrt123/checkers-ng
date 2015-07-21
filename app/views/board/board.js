@@ -16,10 +16,14 @@ module.controller('BoardCtrl', [
         scope.squares = getSquaresDefinition();
 
         scope.hover = function(x, y) {
-          console.log(x, y);
+          //console.log(x, y);
             var field = vBoard.getField(x, y);
-            var square = scope.squares[field.number];
-            square.color = 'orange';
+            if (field !== null) {
+                //var square = scope.squares[field.number];
+                //square.color = 'orange';
+                console.log(field.number)
+            }
+
         };
 
         // ---------- PRIVATE FUNCTIONS----START---

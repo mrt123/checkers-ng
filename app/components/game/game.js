@@ -16,7 +16,7 @@ angular.module('app.Game', []).factory('Game', [
 
         Game.prototype.populateFields = function(fields) {
             var fieldsWithPins = [];
-            fields.forEach(function(field){  // cheat to iterate array!
+            fields.forEach(function(field){
 
                 // PLAYER 1 fields
                 if( field.number >= 41) {

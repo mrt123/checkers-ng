@@ -1,6 +1,6 @@
 angular.module('app.virtualBoard', []).service('virtualBoard', ['Field', function (Field) {
 
-    this.getFields = function() {
+    this.createFields = function() {
         var fields = [];
 
         for (var i = 1; i <= 64; i++) {  // iterate to produce 64 squares
@@ -8,18 +8,25 @@ angular.module('app.virtualBoard', []).service('virtualBoard', ['Field', functio
             var column = i - ( (rowNumber-1) * 8);
             fields.push(new Field(i, rowNumber, column));
         }
+        this.fields = fields;
         return fields;
     };
 
+    this.getFields = function(color){
+        return this.fields.filter(function (field) {
+            return field.color === color;
+        });
+    };
+
     // TODO: belongs to util class
-    this.isClose = function(x1, x2,  threshold) {
-       return Math.abs(x1 - x2) < threshold;
+    this.isClose = function(number, target,  threshold) {
+       return Math.abs(number - target) < threshold;
     };
 
     // returns Field or null
     this.getApproxField = function(x,y) {
         var snapThreshold = 10;
-        var fields =  this.getFields();
+        var fields =  this.createFields();
 
         for (var i = 0; i < fields.length; i++) {
             var field = fields[i];

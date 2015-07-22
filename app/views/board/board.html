@@ -1,10 +1,15 @@
 <div id="board_frame">
     <div id="board">
         <div id="virtualBoard">
-            <ch-draggable on-drag="hover(x, y)"></ch-draggable>
-            <ch-draggable on-drag="hover(x, y)"></ch-draggable>
+            <ch-draggable
+                    ng-repeat="field in fiedlsWithPins"
+                    top="{{field.center.y}}"
+                    left="{{field.center.x}}"
+                    field-number="{{field.number}}"
+                    ng-class = "field.pin.color"
+                    on-drag="hover(x, y)">
+            </ch-draggable>
         </div>
-
 
         <div ng-repeat="i in squares">
             <ch-square color="{{i.color}}" playable="{{i.playable}}" number="{{i.number}}"></ch-square>

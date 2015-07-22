@@ -11,19 +11,5 @@ NEXT TODO:
 
 
 PROBLEM:
-* draggable is aware of its position
-* field is not aware draggable is hovering over it
-
-SOLUTION:
-* as part of draggable interface : provide callback
-** executed in owning controller (Board)
-** eg: dragAction
-A
-** Sudo code:
-dragAction = function(x,y) {
-    Int fieldHovered = vBoard.getField(x,y);
-
-
-
-
-}
+* draggable is aware of its position: SOLVED
+* 

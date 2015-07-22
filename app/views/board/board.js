@@ -11,9 +11,12 @@ module.controller('BoardCtrl', [
     '$scope',
     '$routeParams',
     'virtualBoard',
-    function (scope, $routeParams, vBoard) {
+    'Game',
+    function (scope, $routeParams, vBoard, Game) {
 
-        scope.squares = vBoard.getFields();
+        var game = new Game();
+        scope.squares = game.fields;
+        scope.fiedlsWithPins = game.fiedlsWithPins;
 
         scope.hover = function(x, y) {
             console.log("hover:   " +x, y);
@@ -29,8 +32,8 @@ module.controller('BoardCtrl', [
         };
 
         // ---------- PRIVATE FUNCTIONS----START---
-    }])
-;
+    }]
+);
 
 
 

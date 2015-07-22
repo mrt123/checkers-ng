@@ -11,6 +11,7 @@ angular.module('app.Field', []).factory('Field', function () {
             y : this.row * 60 - 30
         };
         this.legalMoves = this.generateLegalMoves();
+        this.pin = null;
     };
 
     Field.prototype.getConditions = function(rowNo, fieldNo) {

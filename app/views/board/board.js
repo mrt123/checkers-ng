@@ -19,15 +19,16 @@ angular.module('app.board', ['ngRoute'])
             scope.activeSquare = false;
 
             scope.pinHovers = function (startFieldNumber, x, y) {
+                removeHighlight(scope.activeSquare);
+
                 var hoveredField = vBoard.getApproxField(x, y);
 
                 if (hoveredField !== null) {
+
                     var hoveredNumber = hoveredField.number;
 
-                    removeHighlight(scope.activeSquare);
-                    scope.activeSquare = scope.squares[hoveredNumber - 1];
-
                     if (vBoard.isMoveLegal(startFieldNumber, hoveredNumber)) {
+                        scope.activeSquare = scope.squares[hoveredNumber - 1];
                         scope.activeSquare.actions.highlight();
                     }
                 }
@@ -53,6 +54,7 @@ angular.module('app.board', ['ngRoute'])
             function removeHighlight(square) {
                 if (square) {
                     square.actions.removeHighlight(); // bound to directive!
+                    scope.activeSquare = false;  // prevent repeat deHighlight if no new highlight been made!
                 }
             }
         }]

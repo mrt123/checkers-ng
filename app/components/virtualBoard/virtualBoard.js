@@ -27,12 +27,13 @@ angular.module('app.virtualBoard', []).service('virtualBoard', ['Field', functio
 
     // TODO: belongs to util class
     this.isClose = function(number, target,  threshold) {
+        console.log(Math.abs(number - target) < threshold)
        return Math.abs(number - target) < threshold;
     };
 
     // returns Field or null
     this.getApproxField = function(x,y) {
-        var snapThreshold = 20;
+        var snapThreshold = 25;
         var fields =  this.createFields();
 
         for (var i = 0; i < fields.length; i++) {

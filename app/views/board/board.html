@@ -1,22 +1,25 @@
 <div id="board_frame">
-  <div id="board">
-    <div id="virtualBoard">
-      <ch-pin
-          ng-repeat="field in fiedlsWithPins"
-          top="{{field.center.y}}"
-          left="{{field.center.x}}"
-          fieldnumber="{{field.number}}"
-          ng-class="field.pin.color"
-          on-drag="pinHovers(fieldNumber, x, y)">
-      </ch-pin>
-    </div>
+    <div id="board">
+        <div id="virtualBoard">
+            <ch-pin
+                    ng-repeat="field in fiedlsWithPins"
+                    top="{{field.center.y}}"
+                    left="{{field.center.x}}"
+                    fieldnumber="{{field.number}}"
+                    ng-class="field.pin.color"
+                    actions="field.actions"
+                    on-drag="pinHovers(fieldNumber, x, y)"
+                    on-drop="pinDrops(fieldNumber, x, y)"
+                    >
+            </ch-pin>
+        </div>
 
-    <div ng-repeat="i in squares">
-      <ch-square
-          actions="i.actions"
-          color="{{i.color}}"
-          number="{{i.number}}"
-          ></ch-square>
+        <div ng-repeat="i in squares">
+            <ch-square
+                    actions="i.actions"
+                    color="{{i.color}}"
+                    number="{{i.number}}"
+                    ></ch-square>
+        </div>
     </div>
-  </div>
 </div>

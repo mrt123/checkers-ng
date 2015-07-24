@@ -1,5 +1,5 @@
 angular.module('ch-pin', []).
-    directive('chPin', function($document) {
+    directive('chPin', function ($document) {
 
 
         return {
@@ -11,68 +11,77 @@ angular.module('ch-pin', []).
                 // & create a delegate function
                 // for @var remember to use hyphen based notation on bound attributes.
                 reportDrag: '&onDrag',
-                fieldnumber: '@fieldnumber'
+                reportDrop: '&onDrop',
+                fieldnumber: '@fieldnumber',
+                actions: '='
             },
             link: function (scope, element, attr) {
 
-                var startX =  0, startY = 0;
-                var  cssX = attr.left -30 || 0, cssY = attr.top -30 || 0;
-                element.css({
-                    top: cssY + 'px',
-                    left:  cssX + 'px'
-                });
+                scope.actions = {
+                    snap: moveToXY.bind(undefined, element)
+                };
+
+                var startX = 0, startY = 0;
+                var cssX = attr.left - 30 || 0, cssY = attr.top - 30 || 0;
+                moveToXY(element, cssX, cssY);
 
                 // assign event listeners on mousedown!
-                element.on('mousedown', function(event) {
+                element.on('mousedown', function (event) {
                     // Prevent 'default' dragging of selected content
                     event.preventDefault();
                     startX = event.screenX - cssX;
                     startY = event.screenY - cssY;
                     $document.on('mousemove', mouseMove);
-                    $document.on('mouseup', mouseup);
+                    $document.on('mouseup', mouseUp);
                     element.addClass('active');
                 });
+
+                function initPosition() {
+                    // TODO parametrize mouseMove and move init stuff here!
+                }
 
                 function mouseMove(event) {
                     // update css values to match relative to container.
                     cssX = event.screenX - startX;
                     cssY = event.screenY - startY;
-
-                    element.css({
-                        top: cssY + 'px',
-                        left:  cssX + 'px'
-                    });
-
+                    moveToXY(element, cssX, cssY);
 
                     scope.reportDrag({  // reports centered coordinates!
                         fieldNumber: attr.fieldnumber,
-                        x: cssX+30,
-                        y: cssY+30
+                        x: cssX + 30,
+                        y: cssY + 30
                     });
-                    //logMovement(event);
                 }
 
-                // de-register event listeners!
-                function mouseup() {
+                function mouseUp() {
+                    scope.reportDrop({
+                        fieldNumber: attr.fieldnumber,
+                        x: cssX + 30,
+                        y: cssY + 30
+                    });
+
+                    // de-register event listeners!
                     $document.off('mousemove', mouseMove);
-                    $document.off('mouseup', mouseup);
+                    $document.off('mouseup', mouseUp);
                     element.removeClass('active');
                 }
 
-                function logMovement(){
-                    //console.log("css top:" + element.css("top"));
-                    //console.log("css left:" + element.css("left"));
-                    //
-                    //console.log("screenX:" + event.screenX);
-                    //console.log("screenY:" + event.screenY);
+                function logMovement() {
                     console.log(getCenterXY());
                 }
 
-                function getCenterXY(){
+                function getCenterXY() {
                     return {
                         x: parseInt(element.css("top")) + 30,
                         y: parseInt(element.css("left")) + 30
                     }
+                }
+
+                function moveToXY(element, x, y) {
+                    element.css({
+                        left: x + 'px',
+                        top: y + 'px'
+                    });
                 }
             }
         };

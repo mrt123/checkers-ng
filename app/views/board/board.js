@@ -20,24 +20,26 @@ module.controller('BoardCtrl', [
         scope.activeSquare = false;
 
         scope.draggableHovers = function(startFieldNumber, x, y) {
-            document.vBoard = vBoard;
             var hoveredField = vBoard.getApproxField(x, y);
-            if (hoveredField !== null) {
-                if (scope.activeSquare) {
-                    scope.activeSquare.actions.removeHighlight();
-                }
-                scope.activeSquare = scope.squares[hoveredField.number-1];
 
-                if (vBoard.isFieldLegal(startFieldNumber, hoveredField.number)) {
+            if (hoveredField !== null) {
+                var hoveredNumber = hoveredField.number;
+
+                removeHighlight(scope.activeSquare);
+                scope.activeSquare = scope.squares[hoveredNumber-1];
+
+                if (vBoard.isFieldLegal(startFieldNumber, hoveredNumber)) {
                     scope.activeSquare.actions.highlight();
                 }
-                console.log("hovering over: " + hoveredField.number);
             }
-
         };
 
         // ---------- PRIVATE FUNCTIONS----START---  (privates tend to get exported to relevant Types/Services)
-
+        function removeHighlight(square) {
+            if (square) {
+                square.actions.removeHighlight(); // bound to directive!
+            }
+        }
     }]
 );
 

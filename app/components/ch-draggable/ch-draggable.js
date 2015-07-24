@@ -11,7 +11,7 @@ angular.module('ch-draggable', []).
                 // & create a delegate function
                 // for @var remember to use hyphen based notation on bound attributes.
                 reportDrag: '&onDrag',
-                startField: '@'
+                fieldnumber: '@fieldnumber'
             },
             link: function (scope, element, attr) {
 
@@ -43,7 +43,9 @@ angular.module('ch-draggable', []).
                         left:  cssX + 'px'
                     });
 
+
                     scope.reportDrag({  // reports centered coordinates!
+                        fieldNumber: attr.fieldnumber,
                         x: cssX+30,
                         y: cssY+30
                     });

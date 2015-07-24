@@ -18,15 +18,15 @@ module.controller('BoardCtrl', [
         scope.squares = game.fields;
         scope.fiedlsWithPins = game.fiedlsWithPins;
 
-        scope.hover = function(x, y) {
-            console.log("hover:   " +x, y);
+        scope.draggableHovers = function(fieldNumber, x, y) {
+            console.log("hover:   " +x, y, fieldNumber);
             document.vBoard = vBoard;
-            var field = vBoard.getApproxField(x, y);
-            if (field !== null) {
+            var hoveredField = vBoard.getApproxField(x, y);
+            if (hoveredField !== null) {
                 //var square = scope.squares[field.number];
                 //square.color = 'orange';
-                console.log("xyz" +field.number);
-                console.log("xyz" +field.number);
+                console.log("xyz" +hoveredField.number);
+                console.log("xyz" +hoveredField.number);
             }
 
         };

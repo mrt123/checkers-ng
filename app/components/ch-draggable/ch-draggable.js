@@ -1,7 +1,6 @@
 angular.module('ch-pin', []).
     directive('chPin', function ($document) {
 
-
         return {
             restrict: 'E', //directive to be used as element only!
             // isolated scope

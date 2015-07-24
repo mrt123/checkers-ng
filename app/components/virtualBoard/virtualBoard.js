@@ -1,5 +1,13 @@
 angular.module('app.virtualBoard', []).service('virtualBoard', ['Field', function (Field) {
 
+    /**
+     * virtualBoard is provided as instantiated singleton (service).
+     */
+
+    this.init = function() {
+        this.fields = this.createFields();
+    };
+
     this.createFields = function() {
         var fields = [];
 
@@ -8,7 +16,6 @@ angular.module('app.virtualBoard', []).service('virtualBoard', ['Field', functio
             var column = i - ( (rowNumber-1) * 8);
             fields.push(new Field(i, rowNumber, column));
         }
-        this.fields = fields;
         return fields;
     };
 
@@ -44,4 +51,6 @@ angular.module('app.virtualBoard', []).service('virtualBoard', ['Field', functio
         var startField = this.fields[startFieldNumber-1];
         return startField.legalMoves.indexOf(newFieldNumber) >= 0;
     };
+    
+    this.init();
 }]);

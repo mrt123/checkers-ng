@@ -25,7 +25,7 @@ angular.module('app.virtualBoard', []).service('virtualBoard', ['Field', functio
 
     // returns Field or null
     this.getApproxField = function(x,y) {
-        var snapThreshold = 10;
+        var snapThreshold = 20;
         var fields =  this.createFields();
 
         for (var i = 0; i < fields.length; i++) {

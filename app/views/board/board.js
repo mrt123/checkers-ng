@@ -17,21 +17,30 @@ module.controller('BoardCtrl', [
         var game = new Game();
         scope.squares = game.fields;
         scope.fiedlsWithPins = game.fiedlsWithPins;
+        scope.activeSquare = false;
 
-        scope.draggableHovers = function(fieldNumber, x, y) {
-            console.log("hover:   " +x, y, fieldNumber);
+        scope.draggableHovers = function(startFieldNumber, x, y) {
             document.vBoard = vBoard;
             var hoveredField = vBoard.getApproxField(x, y);
             if (hoveredField !== null) {
-                //var square = scope.squares[field.number];
-                //square.color = 'orange';
-                console.log("xyz" +hoveredField.number);
-                console.log("xyz" +hoveredField.number);
+                if (scope.activeSquare) {
+                    scope.activeSquare.actions.removeHighlight();
+                }
+                scope.activeSquare = scope.squares[hoveredField.number-1];
+
+                if (isActiveSquareLegal(startFieldNumber, hoveredField.number)) {
+                    scope.activeSquare.actions.highlight();
+                }
+                console.log("hovering over: " + hoveredField.number);
             }
 
         };
 
         // ---------- PRIVATE FUNCTIONS----START---
+        var isActiveSquareLegal = function(startFieldNumber, newFieldNumber) {
+            var startSquare = scope.squares[startFieldNumber-1];
+            return startSquare.legalMoves.indexOf(newFieldNumber) >= 0;
+        };
     }]
 );
 

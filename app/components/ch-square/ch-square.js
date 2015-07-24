@@ -8,42 +8,34 @@ module.directive('chSquare', [ function () {
         // isolated scope
         scope: {
             // @ assign string representation (one way)
-            // = assign actual scope model (two way)
+            // = assign actual scope model (two way) - can be used for controls
             // & create a delegate function
             //for @var remember to use hyphen based notation on bound attributes.
             color: '@',
-            playable: '@',
             number: '@',
-            actionIconAction: '&',
-            foods: '='
+            actions: '='
         },
         link: function (scope, element, attr) {
+            scope.actions = {
+                highlight: highlight.bind(undefined, element),
+                removeHighlight: removeHighlight.bind(undefined, element)
+            };
+
             element.on('mousedown', function(event) {
                 // Prevent 'default' dragging of this square
                 event.preventDefault();
             });
-
-            element.on('mouseenter', function(){
-                highlight(element, attr);
-            });
-
-            element.on('mouseleave', function(){
-                removeHilight(element, attr);
-            });
-
         },
         template: '<div class="{{color}}"><div class="matrix">{{number}}</div></div>'
 
 
     };
 
-    function highlight(element, attr) {
-        if (attr.playable === "true")
+    function highlight(element) {
         element.find('.matrix').addClass("highlight");
     }
 
-    function removeHilight(element, attr) {
-        if (attr.playable === "true")
+    function removeHighlight(element) {
         element.find('.matrix').removeClass("highlight");
     }
 

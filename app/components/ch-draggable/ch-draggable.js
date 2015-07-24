@@ -33,7 +33,7 @@ angular.module('ch-draggable', []).
                     element.addClass('active');
                 });
 
-                function mouseMove(event) { console.log('move');
+                function mouseMove(event) {
                     // update css values to match relative to container.
                     cssX = event.screenX - startX;
                     cssY = event.screenY - startY;

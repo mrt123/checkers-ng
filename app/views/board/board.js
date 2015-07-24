@@ -28,7 +28,7 @@ module.controller('BoardCtrl', [
                 }
                 scope.activeSquare = scope.squares[hoveredField.number-1];
 
-                if (isActiveSquareLegal(startFieldNumber, hoveredField.number)) {
+                if (vBoard.isFieldLegal(startFieldNumber, hoveredField.number)) {
                     scope.activeSquare.actions.highlight();
                 }
                 console.log("hovering over: " + hoveredField.number);
@@ -36,11 +36,8 @@ module.controller('BoardCtrl', [
 
         };
 
-        // ---------- PRIVATE FUNCTIONS----START---
-        var isActiveSquareLegal = function(startFieldNumber, newFieldNumber) {
-            var startSquare = scope.squares[startFieldNumber-1];
-            return startSquare.legalMoves.indexOf(newFieldNumber) >= 0;
-        };
+        // ---------- PRIVATE FUNCTIONS----START---  (privates tend to get exported to relevant Types/Services)
+
     }]
 );
 

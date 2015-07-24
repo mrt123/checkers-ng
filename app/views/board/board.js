@@ -16,7 +16,7 @@ module.controller('BoardCtrl', [
 
         var game = new Game();
         scope.squares = angular.copy(game.fields);
-        scope.fiedlsWithPins = game.fiedlsWithPins;
+        scope.pins = game.pins;
         scope.activeSquare = false;
 
         scope.pinHovers = function(startFieldNumber, x, y) {
@@ -43,9 +43,9 @@ module.controller('BoardCtrl', [
                 removeHighlight(scope.activeSquare);
 
                 if (vBoard.isMoveLegal(startFieldNumber, hoveredNumber)) {
-                    var x = hoveredField.center.x - 30;
-                    var y = hoveredField.center.y - 30;
-                    this['field'].actions.snap(x, y);
+                    var fieldX = hoveredField.center.x - 30;
+                    var fieldY = hoveredField.center.y - 30;
+                    this['pin'].actions.snapTo(fieldX, fieldY);
                 }
             }
         };

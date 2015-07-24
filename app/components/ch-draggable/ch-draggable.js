@@ -18,7 +18,7 @@ angular.module('ch-pin', []).
             link: function (scope, element, attr) {
 
                 scope.actions = {
-                    snap: moveToXY.bind(undefined, element)
+                    snapTo: moveToXY.bind(undefined, element)
                 };
 
                 var startX = 0, startY = 0;

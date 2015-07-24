@@ -1,36 +1,39 @@
 angular.module('app.Game', []).factory('Game', [
     'virtualBoard',
-    function (vBoard) {
+    function (board) {
 
+        /**
+         * Think of Game as a GameMaster (it owns the board, allocates pins, makes rules).
+         */
 
-        var Pin = function (fieldNumber, color) {
-            this.fieldNumber = fieldNumber;
+        var Pin = function (field, color) {
+            this.field = field;
             this.color = color;
         };
 
         var Game = function () {
-            this.fields = vBoard.createFields();
-            this.playableFields = vBoard.getFields('black');
-            this.fiedlsWithPins = this.populateFields(this.playableFields);
+            this.board = board;
+            this.playableFields = this.board.getFields('black');
+            this.pins = this.allocatePins(this.playableFields);
         };
 
-        Game.prototype.populateFields = function(fields) {
-            var fieldsWithPins = [];
+        Game.prototype.allocatePins = function(fields) {
+            var pins = [];
             fields.forEach(function(field){
 
                 // PLAYER 1 fields
                 if( field.number >= 41) {
-                    field.pin = new Pin(field.number, 'black');
-                    fieldsWithPins.push(field);
+                    var pin = new Pin(field, 'black');
+                    pins.push(pin);
                 }
 
                 // PLAYER 2 fields
                 if( field.number <= 24) {
-                    field.pin = new Pin(field.number, 'white');
-                    fieldsWithPins.push(field);
+                    var pin = new Pin(field, 'white');
+                    pins.push(pin);
                 }
             });
-            return fieldsWithPins;
+            return pins;
         };
 
         return Game;

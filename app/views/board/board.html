@@ -1,14 +1,14 @@
 <div id="board_frame">
   <div id="board">
     <div id="virtualBoard">
-      <ch-draggable
+      <ch-pin
           ng-repeat="field in fiedlsWithPins"
           top="{{field.center.y}}"
           left="{{field.center.x}}"
           fieldnumber="{{field.number}}"
           ng-class="field.pin.color"
-          on-drag="draggableHovers(fieldNumber, x, y)">
-      </ch-draggable>
+          on-drag="pinHovers(fieldNumber, x, y)">
+      </ch-pin>
     </div>
 
     <div ng-repeat="i in squares">
@@ -20,8 +20,3 @@
     </div>
   </div>
 </div>
-
-// on drag
-// * draggable reports position, startField, hovered field
-// * board knows when to highlight a square
-//  ?   How to let square know about highlight ?

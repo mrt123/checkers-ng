@@ -19,7 +19,7 @@ module.controller('BoardCtrl', [
         scope.fiedlsWithPins = game.fiedlsWithPins;
         scope.activeSquare = false;
 
-        scope.draggableHovers = function(startFieldNumber, x, y) {
+        scope.pinHovers = function(startFieldNumber, x, y) {
             var hoveredField = vBoard.getApproxField(x, y);
 
             if (hoveredField !== null) {

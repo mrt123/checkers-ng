@@ -1,5 +1,5 @@
-angular.module('ch-draggable', []).
-    directive('chDraggable', function($document) {
+angular.module('ch-pin', []).
+    directive('chPin', function($document) {
 
 
         return {

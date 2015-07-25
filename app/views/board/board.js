@@ -18,35 +18,40 @@ angular.module('app.board', ['ngRoute'])
             scope.pins = game.pins;
             scope.activeSquare = false;
 
-            scope.pinHovers = function (startFieldNumber, x, y) {
+            scope.pinHovers = function (field, destinationX, destinationY) {
                 removeHighlight(scope.activeSquare);
 
-                var hoveredField = vBoard.getApproxField(x, y);
+                var hoveredField = vBoard.getApproxField(destinationX, destinationY);
 
                 if (hoveredField !== null) {
 
                     var hoveredNumber = hoveredField.number;
 
-                    if (vBoard.isMoveLegal(startFieldNumber, hoveredNumber)) {
+                    if (vBoard.isMoveLegal(field.number, hoveredNumber)) {
                         scope.activeSquare = scope.squares[hoveredNumber - 1];
                         scope.activeSquare.actions.highlight();
                     }
                 }
             };
 
-            scope.pinDrops = function (startFieldNumber, x, y) {
-                var hoveredField = vBoard.getApproxField(x, y);
+            scope.pinDrops = function (originField, destinationX, destinationY) {
+                var hoveredField = vBoard.getApproxField(destinationX, destinationY);
+                var pin = this['pin'];
 
                 if (hoveredField !== null) {
-                    var hoveredNumber = hoveredField.number;
-
                     removeHighlight(scope.activeSquare);
 
-                    if (vBoard.isMoveLegal(startFieldNumber, hoveredNumber)) {
+                    if (vBoard.isMoveLegal(originField.number, hoveredField.number)) {
                         var fieldX = hoveredField.center.x - 30;
                         var fieldY = hoveredField.center.y - 30;
-                        this['pin'].actions.snapTo(fieldX, fieldY);
+                        pin.actions.snapTo(fieldX, fieldY);
                     }
+                    else {
+                        returnPinToOrigin(pin, originField);
+                    }
+                }
+                else {
+                    returnPinToOrigin(pin, originField);
                 }
             };
 
@@ -56,6 +61,12 @@ angular.module('app.board', ['ngRoute'])
                     square.actions.removeHighlight(); // bound to directive!
                     scope.activeSquare = false;  // prevent repeat deHighlight if no new highlight been made!
                 }
+            }
+
+            function returnPinToOrigin(pin, originField) {
+                var fieldX = originField.center.x - 30;
+                var fieldY = originField.center.y - 30;
+                pin.actions.animateTo(fieldX, fieldY);
             }
         }]
 );

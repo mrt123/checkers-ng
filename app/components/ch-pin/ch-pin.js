@@ -11,13 +11,14 @@ angular.module('ch-pin', []).
                 // for @var remember to use hyphen based notation on bound attributes.
                 reportDrag: '&onDrag',
                 reportDrop: '&onDrop',
-                fieldnumber: '@fieldnumber',
+                field: '@field',
                 actions: '='
             },
             link: function (scope, element, attr) {
 
                 scope.actions = {
-                    snapTo: moveToXY.bind(undefined, element)
+                    snapTo: moveToXY.bind(undefined, element),
+                    animateTo: animateTo.bind(undefined, element)
                 };
 
                 var startX = 0, startY = 0;
@@ -46,7 +47,7 @@ angular.module('ch-pin', []).
                     moveToXY(element, cssX, cssY);
 
                     scope.reportDrag({  // reports centered coordinates!
-                        fieldNumber: attr.fieldnumber,
+                        field: JSON.parse(attr.field),
                         x: cssX + 30,
                         y: cssY + 30
                     });
@@ -54,7 +55,7 @@ angular.module('ch-pin', []).
 
                 function mouseUp() {
                     scope.reportDrop({
-                        fieldNumber: attr.fieldnumber,
+                        field: JSON.parse(attr.field),
                         x: cssX + 30,
                         y: cssY + 30
                     });
@@ -80,6 +81,15 @@ angular.module('ch-pin', []).
                     element.css({
                         left: x + 'px',
                         top: y + 'px'
+                    });
+                }
+
+                function animateTo(element, x, y) {
+                    element.animate({
+                        left: x + 'px',
+                        top: y + 'px'
+                    }, 500, function () {
+                        // Animation complete.
                     });
                 }
             }

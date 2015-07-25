@@ -5,11 +5,11 @@
                     ng-repeat="pin in pins"
                     top="{{pin.field.center.y}}"
                     left="{{pin.field.center.x}}"
-                    fieldnumber="{{pin.field.number}}"
+                    field="{{pin.field}}"
                     ng-class="pin.color"
                     actions="pin.actions"
-                    on-drag="pinHovers(fieldNumber, x, y)"
-                    on-drop="pinDrops(fieldNumber, x, y)"
+                    on-drag="pinHovers(field, x, y)"
+                    on-drop="pinDrops(field, x, y)"
                     >
             </ch-pin>
         </div>

@@ -18,40 +18,44 @@ angular.module('app.board', ['ngRoute'])
             scope.pins = game.pins;
             scope.activeSquare = false;
 
-            scope.pinHovers = function (field, destinationX, destinationY) {
+            scope.pinHovers = function (destinationX, destinationY) {
                 removeHighlight(scope.activeSquare);
 
+                var pin = this['pin'];
                 var hoveredField = vBoard.getApproxField(destinationX, destinationY);
 
                 if (hoveredField !== null) {
 
                     var hoveredNumber = hoveredField.number;
 
-                    if (vBoard.isMoveLegal(field.number, hoveredNumber)) {
+                    if (vBoard.isMoveLegal(pin.field.number, hoveredNumber)) {
                         scope.activeSquare = scope.squares[hoveredNumber - 1];
                         scope.activeSquare.actions.highlight();
                     }
                 }
             };
 
-            scope.pinDrops = function (originField, destinationX, destinationY) {
+            scope.pinDrops = function (destinationX, destinationY) {
                 var hoveredField = vBoard.getApproxField(destinationX, destinationY);
                 var pin = this['pin'];
 
                 if (hoveredField !== null) {
                     removeHighlight(scope.activeSquare);
 
-                    if (vBoard.isMoveLegal(originField.number, hoveredField.number)) {
-                        var fieldX = hoveredField.center.x - 30;
-                        var fieldY = hoveredField.center.y - 30;
-                        pin.actions.snapTo(fieldX, fieldY);
+                    if (vBoard.isMoveLegal(pin.field.number, hoveredField.number)) {
+                        var newFieldX = hoveredField.center.x - 30;
+                        var newFieldY = hoveredField.center.y - 30;
+
+                        pin.actions.snapTo(newFieldX, newFieldY);
+                        scope.pins[this.$index].field = hoveredField;  // will not affect top/left
+                        pin.actions.setStartXY(newFieldX, newFieldY);
                     }
                     else {
-                        returnPinToOrigin(pin, originField);
+                        returnPinToOrigin(pin, pin.field);
                     }
                 }
                 else {
-                    returnPinToOrigin(pin, originField);
+                    returnPinToOrigin(pin, pin.field);
                 }
             };
 

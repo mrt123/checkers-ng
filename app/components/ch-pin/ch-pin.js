@@ -11,53 +11,58 @@ angular.module('ch-pin', []).
                 // for @var remember to use hyphen based notation on bound attributes.
                 reportDrag: '&onDrag',
                 reportDrop: '&onDrop',
-                field: '@field',
+                field: '=field',  // need up to date field!
                 actions: '='
             },
             link: function (scope, element, attr) {
 
                 scope.actions = {
                     snapTo: moveToXY.bind(undefined, element),
-                    animateTo: animateTo.bind(undefined, element)
+                    animateTo: animateTo.bind(undefined, element),
+                    setStartXY: setStartXY
                 };
 
-                var startX = 0, startY = 0;
-                var cssX = attr.left - 30 || 0, cssY = attr.top - 30 || 0;
-                moveToXY(element, cssX, cssY);
+                var startX, startY, markX, markY, newX, newY;
+                startX = attr.left - 30;
+                startY = attr.top - 30;
+                setStartXY(startX, startY);
 
-                // assign event listeners on mousedown!
+                moveToXY(element, startX, startY);
+
                 element.on('mousedown', function (event) {
-                    // Prevent 'default' dragging of selected content
-                    event.preventDefault();
-                    startX = event.screenX - cssX;
-                    startY = event.screenY - cssY;
+                    event.preventDefault();     // Prevent 'default' browser highlight of selected content
+
+                    markX = event.pageX;
+                    markY = event.pageY;
+
                     $document.on('mousemove', mouseMove);
                     $document.on('mouseup', mouseUp);
                     element.addClass('active');
                 });
 
-                function initPosition() {
-                    // TODO parametrize mouseMove and move init stuff here!
+                function setStartXY(x, y) {
+                    startX = x;
+                    startY = y;
                 }
 
                 function mouseMove(event) {
                     // update css values to match relative to container.
-                    cssX = event.screenX - startX;
-                    cssY = event.screenY - startY;
-                    moveToXY(element, cssX, cssY);
+                    var differenceX = event.pageX - markX;
+                    var differenceY = event.pageY - markY;
+                    newX = startX + differenceX;
+                    newY = startY + differenceY;
+                    moveToXY(element, newX, newY);
 
                     scope.reportDrag({  // reports centered coordinates!
-                        field: JSON.parse(attr.field),
-                        x: cssX + 30,
-                        y: cssY + 30
+                        x: newX + 30,
+                        y: newY + 30
                     });
                 }
 
                 function mouseUp() {
                     scope.reportDrop({
-                        field: JSON.parse(attr.field),
-                        x: cssX + 30,
-                        y: cssY + 30
+                        x: newX + 30,
+                        y: newY + 30
                     });
 
                     // de-register event listeners!

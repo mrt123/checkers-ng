@@ -1,15 +1,14 @@
 <div id="board_frame">
     <div id="board">
         <div id="virtualBoard">
-            <ch-pin
-                    ng-repeat="pin in pins"
+            <ch-pin ng-repeat="pin in pins"
                     top="{{pin.field.center.y}}"
                     left="{{pin.field.center.x}}"
-                    field="{{pin.field}}"
+                    field="pin.getField()"
                     ng-class="pin.color"
                     actions="pin.actions"
-                    on-drag="pinHovers(field, x, y)"
-                    on-drop="pinDrops(field, x, y)"
+                    on-drag="pinHovers(x, y)"
+                    on-drop="pinDrops(x, y)"
                     >
             </ch-pin>
         </div>

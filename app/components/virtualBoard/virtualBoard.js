@@ -27,7 +27,6 @@ angular.module('app.virtualBoard', []).service('virtualBoard', ['Field', functio
 
     // TODO: belongs to util class
     this.isClose = function(number, target,  threshold) {
-        console.log(Math.abs(number - target) < threshold)
        return Math.abs(number - target) < threshold;
     };
 

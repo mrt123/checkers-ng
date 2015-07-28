@@ -47,10 +47,5 @@ angular.module('app.virtualBoard', []).service('virtualBoard', ['Field', functio
         return null;
     };
 
-    this.isMoveLegal = function(startFieldNumber, newFieldNumber) {
-        var startField = this.fields[startFieldNumber-1];
-        return startField.legalMoves.indexOf(newFieldNumber) >= 0;
-    };
-    
     this.init();
 }]);

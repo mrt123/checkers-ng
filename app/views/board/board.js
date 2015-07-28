@@ -15,7 +15,7 @@ angular.module('app.board', ['ngRoute'])
             var game = new Game();
 
             scope.squares = angular.copy(game.board.fields);
-            scope.pins = game.pins;
+            scope.pins = game.pins;  window.game = game;
             scope.activeSquare = false;
 
             scope.pinHovers = function (destinationX, destinationY) {
@@ -28,7 +28,7 @@ angular.module('app.board', ['ngRoute'])
 
                     var hoveredNumber = hoveredField.number;
 
-                    if (vBoard.isMoveLegal(pin.field.number, hoveredNumber)) {
+                    if (game.isMoveLegal(pin.field.number, hoveredNumber)) {
                         scope.activeSquare = scope.squares[hoveredNumber - 1];
                         scope.activeSquare.actions.highlight();
                     }
@@ -39,16 +39,21 @@ angular.module('app.board', ['ngRoute'])
                 var hoveredField = vBoard.getApproxField(destinationX, destinationY);
                 var pin = this['pin'];
 
+
                 if (hoveredField !== null) {
                     removeHighlight(scope.activeSquare);
 
-                    if (vBoard.isMoveLegal(pin.field.number, hoveredField.number)) {
+                    if (game.isMoveLegal(pin.field.number, hoveredField.number)) {
                         var newFieldX = hoveredField.center.x - 30;
                         var newFieldY = hoveredField.center.y - 30;
 
                         pin.actions.snapTo(newFieldX, newFieldY);
                         scope.pins[this.$index].field = hoveredField;  // will not affect top/left
-                        pin.actions.setStartXY(newFieldX, newFieldY);
+                        pin.actions.setStart(newFieldX, newFieldY);
+                        pin.field.setPin(null);
+                        pin.setField(null);
+                        game.putPin(pin, hoveredField);
+                        //hoveredField.setPin(pin);
                     }
                     else {
                         returnPinToOrigin(pin, pin.field);

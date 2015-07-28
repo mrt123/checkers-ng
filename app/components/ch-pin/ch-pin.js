@@ -19,17 +19,22 @@ angular.module('ch-pin', []).
                 scope.actions = {
                     snapTo: moveToXY.bind(undefined, element),
                     animateTo: animateTo.bind(undefined, element),
-                    setStartXY: setStartXY
+                    setStart: setStart
                 };
 
                 var startX, startY, markX, markY, newX, newY;
                 startX = attr.left - 30;
                 startY = attr.top - 30;
-                setStartXY(startX, startY);
-
+                setStart(startX, startY);
                 moveToXY(element, startX, startY);
+                element.on('mousedown', mouseDown);
 
-                element.on('mousedown', function (event) {
+                function setStart(x, y) {
+                    startX = x;
+                    startY = y;
+                }
+
+                function mouseDown(event) {
                     event.preventDefault();     // Prevent 'default' browser highlight of selected content
 
                     markX = event.pageX;
@@ -38,11 +43,6 @@ angular.module('ch-pin', []).
                     $document.on('mousemove', mouseMove);
                     $document.on('mouseup', mouseUp);
                     element.addClass('active');
-                });
-
-                function setStartXY(x, y) {
-                    startX = x;
-                    startY = y;
                 }
 
                 function mouseMove(event) {

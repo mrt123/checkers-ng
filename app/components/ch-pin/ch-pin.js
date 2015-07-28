@@ -9,22 +9,26 @@ angular.module('ch-pin', []).
                 // = assign actual scope model (two way)
                 // & create a delegate function
                 // for @var remember to use hyphen based notation on bound attributes.
+
+                initCssTop: '=',
+                initCssLeft: '=',
+                api: '=',
+
                 reportDrag: '&onDrag',
-                reportDrop: '&onDrop',
-                field: '=field',  // need up to date field!
-                actions: '='
+                reportDrop: '&onDrop'
             },
             link: function (scope, element, attr) {
 
-                scope.actions = {
-                    snapTo: moveToXY.bind(undefined, element),
+                scope.api = {
+                    leaveAt: stay.bind(undefined, element),
                     animateTo: animateTo.bind(undefined, element),
-                    setStart: setStart
+                    setStart: stay
                 };
 
                 var startX, startY, markX, markY, newX, newY;
-                startX = attr.left - 30;
-                startY = attr.top - 30;
+
+                startX = attr.initcssleft - 30;
+                startY = attr.initcsstop - 30;
                 setStart(startX, startY);
                 moveToXY(element, startX, startY);
                 element.on('mousedown', mouseDown);
@@ -39,13 +43,13 @@ angular.module('ch-pin', []).
 
                     markX = event.pageX;
                     markY = event.pageY;
-
+                    console.log(444)
                     $document.on('mousemove', mouseMove);
                     $document.on('mouseup', mouseUp);
                     element.addClass('active');
                 }
 
-                function mouseMove(event) {
+                function mouseMove(event) { console.log(123)
                     // update css values to match relative to container.
                     var differenceX = event.pageX - markX;
                     var differenceY = event.pageY - markY;
@@ -71,10 +75,6 @@ angular.module('ch-pin', []).
                     element.removeClass('active');
                 }
 
-                function logMovement() {
-                    console.log(getCenterXY());
-                }
-
                 function getCenterXY() {
                     return {
                         x: parseInt(element.css("top")) + 30,
@@ -87,6 +87,11 @@ angular.module('ch-pin', []).
                         left: x + 'px',
                         top: y + 'px'
                     });
+                }
+
+                function stay(element, x, y) {
+                    moveToXY(element, x, y);
+                    setStart(x, y);
                 }
 
                 function animateTo(element, x, y) {

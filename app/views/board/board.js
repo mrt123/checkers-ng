@@ -8,59 +8,69 @@ angular.module('app.board', ['ngRoute'])
     .controller('BoardCtrl', [
         '$scope',
         '$routeParams',
-        'virtualBoard',
         'Game',
-        function (scope, $routeParams, vBoard, Game) {
+        function (scope, $routeParams, Game) {
 
-            var game = new Game();
+            var game = new Game();    window.game = game;
+            var board = game.board;     window.scope = scope;
 
-            scope.squares = angular.copy(game.board.fields);
-            scope.pins = game.pins;  window.game = game;
+            // FIELDS
+            scope.fields = angular.copy(game.board.fields);
+
+            // PINS
+            {
+                var fieldsWithPins = board.getFieldsWithPins();
+                var scopePins = [];
+
+                fieldsWithPins.forEach(function(field, index){
+
+                    scopePins.push({
+                        color: field.getPin().color,
+                        top: field.center.y,
+                        left: field.center.x,
+                        field: field // directive still doesn't know about the field
+                    });
+                });
+                scope.pins = scopePins;
+            }
             scope.activeSquare = false;
 
             scope.pinHovers = function (destinationX, destinationY) {
                 removeHighlight(scope.activeSquare);
 
-                var pin = this['pin'];
-                var hoveredField = vBoard.getApproxField(destinationX, destinationY);
+                var pinDirective = this['pin'];
+                var hoveredField = board.getApproxField(destinationX, destinationY);
 
                 if (hoveredField !== null) {
 
-                    var hoveredNumber = hoveredField.number;
-
-                    if (game.isMoveLegal(pin.field.number, hoveredNumber)) {
-                        scope.activeSquare = scope.squares[hoveredNumber - 1];
+                    if (game.isMoveLegal(pinDirective.field, hoveredField)) {
+                        scope.activeSquare = scope.fields[hoveredField.number - 1];
                         scope.activeSquare.actions.highlight();
                     }
                 }
             };
 
             scope.pinDrops = function (destinationX, destinationY) {
-                var hoveredField = vBoard.getApproxField(destinationX, destinationY);
-                var pin = this['pin'];
 
+                var hoveredField = board.getApproxField(destinationX, destinationY);
+                var pinDirective = this['pin'];
 
                 if (hoveredField !== null) {
                     removeHighlight(scope.activeSquare);
 
-                    if (game.isMoveLegal(pin.field.number, hoveredField.number)) {
+                    if (game.isMoveLegal(pinDirective.field, hoveredField)) {
                         var newFieldX = hoveredField.center.x - 30;
                         var newFieldY = hoveredField.center.y - 30;
 
-                        pin.actions.snapTo(newFieldX, newFieldY);
-                        scope.pins[this.$index].field = hoveredField;  // will not affect top/left
-                        pin.actions.setStart(newFieldX, newFieldY);
-                        pin.field.setPin(null);
-                        pin.setField(null);
-                        game.putPin(pin, hoveredField);
+                        pinDirective.api.leaveAt(newFieldX, newFieldY);
                         //hoveredField.setPin(pin);
                     }
                     else {
-                        returnPinToOrigin(pin, pin.field);
+                        returnPinToOrigin(pinDirective);
                     }
                 }
                 else {
-                    returnPinToOrigin(pin, pin.field);
+                    returnPinToOrigin(pinDirective);
                 }
             };
 
@@ -72,10 +82,10 @@ angular.module('app.board', ['ngRoute'])
                 }
             }
 
-            function returnPinToOrigin(pin, originField) {
-                var fieldX = originField.center.x - 30;
-                var fieldY = originField.center.y - 30;
-                pin.actions.animateTo(fieldX, fieldY);
+            function returnPinToOrigin(pin) {
+                var fieldX = pin.field.center.x - 30;
+                var fieldY = pin.field.center.y - 30;
+                pin.api.animateTo(fieldX, fieldY);
             }
         }]
 );

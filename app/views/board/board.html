@@ -2,23 +2,26 @@
     <div id="board">
         <div id="virtualBoard">
             <ch-pin ng-repeat="pin in pins"
-                    top="{{pin.field.center.y}}"
-                    left="{{pin.field.center.x}}"
-                    field="pin.getField()"
                     ng-class="pin.color"
-                    actions="pin.actions"
+
+                    color = "{{pin.color}}"
+                    initcsstop = "{{pin.top}}"
+                    initcssleft = "{{pin.left}}"
+
+                    api="pin.api"
                     on-drag="pinHovers(x, y)"
                     on-drop="pinDrops(x, y)"
                     >
             </ch-pin>
         </div>
 
-        <div ng-repeat="i in squares">
+        <div ng-repeat="field in fields">
             <ch-square
-                    actions="i.actions"
-                    color="{{i.color}}"
-                    number="{{i.number}}"
-                    ></ch-square>
+                    color="{{field.color}}"
+                    number="{{field.number}}"
+                    actions="field.actions"
+                    >
+            </ch-square>
         </div>
     </div>
 </div>

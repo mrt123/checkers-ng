@@ -1,39 +1,24 @@
 angular.module('app.Game', []).factory('Game', [
     'virtualBoard',
-    function (board) {
+    function (Board) {
 
         /**
-         * Think of Game as a GameMaster (it owns the board, allocates pins, makes rules).
+         * Think of Game as a GameMaster :
+         *  - it owns the board
+         *  - makes rules).
+         *  - does not allocates pins (board comes with pins pre allocated)
          */
 
-        var Pin = function (field, color) {
-            this.field = field;
-            this.color = color;
-        };
-
         var Game = function () {
-            this.board = board;
-            this.playableFields = this.board.getFields('black');
-            this.pins = this.allocatePins(this.playableFields);
+            this.board = new Board;
         };
 
-        Game.prototype.allocatePins = function(fields) {
-            var pins = [];
-            fields.forEach(function(field){
-
-                // PLAYER 1 fields
-                if( field.number >= 41) {
-                    var pin = new Pin(field, 'black');
-                    pins.push(pin);
-                }
-
-                // PLAYER 2 fields
-                if( field.number <= 24) {
-                    var pin = new Pin(field, 'white');
-                    pins.push(pin);
-                }
-            });
-            return pins;
+        Game.prototype.isMoveLegal = function(startField, newField) {
+            //var startField = this.board.fields[startFieldNumber-1];
+            //var newField = this.board.fields[newFieldNumber-1];
+            var condition1 = startField.legalMoves.indexOf(newField.number) >= 0;
+            var condition2 = newField.isEmpty();
+            return condition1 && condition2;
         };
 
         return Game;

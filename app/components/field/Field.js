@@ -5,12 +5,13 @@ angular.module('app.Field', []).factory('Field', function () {
         this.number = number;
         this.row = row;
         this.column = column;
-        this.color = this.getColor(this.row, number);
+        this.color = null;
+        this.setColor(this.row, number);
         this.center = {
             x : this.column * 60 - 30,
             y : this.row * 60 - 30
         };
-        this.legalMoves = this.generateLegalMoves();
+        this.legalMoves = this.getLegalMoves();
         this.pin = null;
     };
 
@@ -25,12 +26,28 @@ angular.module('app.Field', []).factory('Field', function () {
         }
     };
 
-    Field.prototype.getColor = function(row, fieldNo) {
+    Field.prototype.setColor = function(row, fieldNo) {
         var conditions = this.getConditions(row, fieldNo);
-        return conditions.blacks ? 'black' : 'white'
+        this.color = conditions.blacks ? 'black' : 'white'
     };
 
-    Field.prototype.generateLegalMoves = function(){
+    Field.prototype.getColor = function() {
+        return this.color;
+    };
+
+    Field.prototype.isEmpty = function() {
+        return this.pin === null;
+    };
+
+    Field.prototype.setPin = function(pin) {
+        this.pin = pin;
+    };
+
+    Field.prototype.getPin = function() {
+        return this.pin;
+    };
+
+    Field.prototype.getLegalMoves = function(){
         var legalMoves = [];
         var onLeftEdge = this.isFirstFromLeft();
         var onRightEdge = this.isFirstFromRight();

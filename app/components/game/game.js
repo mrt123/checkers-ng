@@ -22,7 +22,6 @@ angular.module('app.Game', []).factory('Game', [
             //var newField = this.board.fields[newFieldNumber-1];
             var condition1 = startField.legalMoves.indexOf(newField.number) >= 0;
             var condition2 = this.getMappingForField(newField.number) === undefined;
-            console.log("condition2 " + condition2 );
             return condition1 && condition2;
         };
 

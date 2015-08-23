@@ -13,6 +13,7 @@ angular.module('ch-square', []).directive('chSquare', [function () {
                 actions: '='
             },
             link: function (scope, element, attr) {
+                scope.debug = _dev.debug;
                 scope.actions = {
                     highlight: highlight.bind(undefined, element),
                     removeHighlight: removeHighlight.bind(undefined, element)
@@ -23,7 +24,7 @@ angular.module('ch-square', []).directive('chSquare', [function () {
                     event.preventDefault();
                 });
             },
-            template: '<div class="{{color}}"><div class="matrix">{{number}}</div></div>'
+            templateUrl: 'components/ch-square/ch-square.html'
 
 
         };

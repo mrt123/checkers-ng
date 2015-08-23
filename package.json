@@ -8,6 +8,7 @@
     "gulp": "*",
     "gulp-angular-modules": "^0.1.8",
     "gulp-concat": "*",
+    "gulp-debug": "^2.1.0",
     "gulp-less": "*",
     "gulp-sourcemaps": "*"
   }

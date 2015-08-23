@@ -12,12 +12,17 @@ angular.module('ch-pin', []).
 
                 initCssTop: '=',
                 initCssLeft: '=',
+                id: '@',
                 api: '=',
 
                 reportDrag: '&onDrag',
                 reportDrop: '&onDrop'
             },
             link: function (scope, element, attr) {
+                scope.$on('debug', function (event, value) {
+                    scope.debug = value;
+                });
+
                 var zIndexDefault = 100;
                 var zIndexActive = 101;
                 element.css({'z-index': zIndexDefault});
@@ -106,6 +111,8 @@ angular.module('ch-pin', []).
                         // Animation complete.
                     });
                 }
-            }
+            },
+
+            templateUrl: 'components/ch-pin/ch-pin.html'
         };
     });

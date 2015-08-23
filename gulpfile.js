@@ -1,4 +1,5 @@
 var angularModules = require("gulp-angular-modules");
+var debug = require('gulp-debug');
 var gulp = require('gulp');
 var less = require('gulp-less');
 var concat = require('gulp-concat');
@@ -11,11 +12,18 @@ var jsFiles = [
     "./app/components/**/*.js"
 ];
 var cssFiles = ['app/css/**/*.less', 'app/views/**/*.less', 'app/components/**/*.less'];
+var fontAwesomeFiles = [
+    'app/css/customized/font-awesome.less',
+    'app/css/customized/font-awesome-vars.less'
+];
+var assets = [
+    './app/fonts*/*',   // moves together with encapsulating folder.
+    './app/bower_components/font-awesome/fonts*/*',   // moves together with encapsulating folder.
+    './app/img*/*'
+];
+var devServer = browserSync.create("developmentServer");
 
-gulp.task('default', ['develop']);
-gulp.task('develop', ['serve']);
-
-gulp.task('less', function () {
+gulp.task('app_dev.css', function () {
     return gulp.src(cssFiles)
         .pipe(sourcemaps.init())
         .pipe(less({
@@ -23,11 +31,26 @@ gulp.task('less', function () {
         }))
         .pipe(concat('app_dev.css'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('app/build/css'))  // must be same depth as views/ to match relative path to img/
-        .pipe(browserSync.reload({ stream:true }));
+        .pipe(gulp.dest('app/build/dev'));  // must be same depth as views/ to match relative path to img/
 });
 
-gulp.task("modules", function() {
+gulp.task('font-awesome_dev.css', function () {
+    return gulp.src(fontAwesomeFiles)
+        .pipe(debug({
+            title: "font-awesome:   "
+        }))
+        .pipe(sourcemaps.init())
+        .pipe(less())
+        .pipe(concat('font-awesome_dev.css'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('app/build/dev'))
+        .pipe(devServer.reload({stream: true}));
+});
+
+gulp.task('less', ['font-awesome_dev.css', 'app_dev.css'], function () {
+});
+
+gulp.task("modules", function () {
 
     var moduesOpts = {
         name: "gulp-angular-modules",
@@ -39,7 +62,7 @@ gulp.task("modules", function() {
         .pipe(gulp.dest("./app/build/dev/"))
 });
 
-gulp.task('concat' , [] ,function () {
+gulp.task('concat', [], function () {
     gulp.src(jsFiles, {})
         .pipe(sourcemaps.init())
         .pipe(concat('app_dev.js'))
@@ -47,9 +70,17 @@ gulp.task('concat' , [] ,function () {
         .pipe(gulp.dest('./app/build/dev/'));
 });
 
+gulp.task('move-dev-assets', function () {
+    return gulp.src(assets)
+        .pipe(debug({
+            title: "moveAssets --->   "
+        }))
+        .pipe(gulp.dest("./app/build/dev/"));
+});
+
 // watch files for changes and reload (order of dependencies matters).
-gulp.task('serve', ['less', 'modules', 'concat'], function () {
-    browserSync({
+gulp.task('serve', ['less', 'modules', 'concat', 'move-dev-assets'], function () {
+    devServer.init({
         server: {
             baseDir: 'app'
         },
@@ -57,7 +88,12 @@ gulp.task('serve', ['less', 'modules', 'concat'], function () {
     });
 
     // notice: '**/*' or '/**/*' will watch entire drive
-    gulp.watch(jsFiles, {}, ['modules', 'concat', reload]);  // TODO: pipe watch output to modules without getting src again!
-    gulp.watch(['./**/*.html'], {}, reload);
+    gulp.watch(jsFiles, {}, ['modules', 'concat', devServer.reload]);  // TODO: pipe watch output to modules without getting src again!
+    gulp.watch(['./**/*.html'], {}, devServer.reload);
     gulp.watch(cssFiles, ['less']);  // inject pre-processed css without page reload.
+    gulp.watch(fontAwesomeFiles, ['font-awesome_dev.css']);
 });
+
+
+gulp.task('default', ['develop']);
+gulp.task('develop', ['serve']);

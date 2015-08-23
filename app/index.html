@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <title>Checkers</title>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="bower_components/font-awesome-bower/css/font-awesome.css">
 
     <!-- compiled during dev time -->
-    <link rel="stylesheet" type="text/css" href="build/css/app_dev.css"/>
+    <link rel="stylesheet" href="build/dev/font-awesome_dev.css">
+    <link rel="stylesheet" type="text/css" href="build/dev/app_dev.css"/>
 </head>
 <body>
 
@@ -36,6 +36,7 @@
     </div>
 </div>
 
+<div ui-view></div>
 <div class='main' ng-view>  <!-- container has width imposed by bootstrap , not good for table views ...-->
 </div>
 
@@ -54,6 +55,7 @@
 
 <script src="bower_components/angularjs/angular.min.js"></script>
 <script src="bower_components/angular-route/angular-route.min.js"></script>
+<script src="bower_components/ui-router/release/angular-ui-router.js"></script>
 
 <script src="resources/_devAPI.js"></script>
 <script src="build/dev/gulp-angular-modules.js"></script>

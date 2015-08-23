@@ -1,10 +1,4 @@
-angular.module('app.board', ['ngRoute'])
-    .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/board/:gameId', {
-            templateUrl: 'views/board/board.html',
-            controller: 'BoardCtrl'
-        });
-    }])
+angular.module('app.board', [])
     .controller('BoardCtrl', [
         '$scope',
         '$routeParams',

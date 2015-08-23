@@ -31,14 +31,16 @@ angular.module('ch-pin', []).
                 startY = attr.initcsstop - 30;
                 setStart(startX, startY);
                 moveToXY(element, startX, startY);
-                element.on('mousedown', mouseDown);
+                element.on('mousedown', function(event){
+                    mouseDown(event, this)
+                });
 
                 function setStart(x, y) {
                     startX = x;
                     startY = y;
                 }
 
-                function mouseDown(event) {
+                function mouseDown(event, directive) {
                     event.preventDefault();     // Prevent 'default' browser highlight of selected content
 
                     markX = event.pageX;
@@ -49,7 +51,7 @@ angular.module('ch-pin', []).
                     element.addClass('active');
                 }
 
-                function mouseMove(event) { console.log(123)
+                function mouseMove(event) {
                     // update css values to match relative to container.
                     var differenceX = event.pageX - markX;
                     var differenceY = event.pageY - markY;

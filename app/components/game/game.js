@@ -1,6 +1,7 @@
 angular.module('app.Game', []).factory('Game', [
     'virtualBoard',
-    function (Board) {
+    'Pin',
+    function (Board, Pin) {
 
         /**
          * Think of Game as a GameMaster :
@@ -10,15 +11,103 @@ angular.module('app.Game', []).factory('Game', [
          */
 
         var Game = function () {
-            this.board = new Board;
+            this.board = new Board();
+            this.pins = this.allocatePins(this.board.getFieldsByColor('black'));
+            this.pinMap = this.generatePinMap(this.board.getFieldsByColor('black'));
+
         };
 
-        Game.prototype.isMoveLegal = function(startField, newField) {
+        Game.prototype.isMoveLegal = function (startField, newField) {
             //var startField = this.board.fields[startFieldNumber-1];
             //var newField = this.board.fields[newFieldNumber-1];
             var condition1 = startField.legalMoves.indexOf(newField.number) >= 0;
-            var condition2 = newField.isEmpty();
+            var condition2 = this.getMappingForField(newField.number) === undefined;
+            console.log("condition2 " + condition2 );
             return condition1 && condition2;
+        };
+
+        Game.prototype.allocatePins = function (fields) {
+
+            var pins = [];
+            fields.forEach(function (field) {
+
+                // PLAYER 1 fields
+                if (field.number >= 41) {
+                    var pin = new Pin('black', pins.length);
+                    pins.push(pin);
+                }
+
+                // PLAYER 2 fields
+                if (field.number <= 24) {
+                    var pin = new Pin('white', pins.length);
+                    pins.push(pin);
+                }
+            }.bind(this));
+            return pins;
+        };
+
+        Game.prototype.getPins = function () {
+            return this.pins;
+        };
+
+        Game.prototype.getPinById = function (id) {
+            return this.pins.filter(function (pin) {
+                return pin.id === id;
+            })[0];
+        };
+
+        // MAPPINGS SECTION
+        Game.prototype.generatePinMap = function (playableFields) {
+            var pinMap = [];
+
+            playableFields.forEach(function (field) {
+
+                // PLAYER 1 fields
+                if (field.number >= 41) {
+                    pinMap.push({
+                        pinId: pinMap.length,
+                        fieldId: field.number
+                    });
+                }
+
+                // PLAYER 2 fields
+                if (field.number <= 24) {
+                    pinMap.push({
+                        pinId: pinMap.length,
+                        fieldId: field.number
+                    });
+                }
+            }.bind(this));
+
+            return pinMap;
+
+        };
+
+        Game.prototype.getMappingForPin = function (pinId) {
+            return this.pinMap.filter(function (mapping) {
+                return mapping.pinId === pinId;
+            })[0];
+        };
+
+        Game.prototype.getMappingForField = function (fieldId) {
+            return this.pinMap.filter(function (mapping) {
+                return mapping.fieldId === fieldId;
+            })[0];
+        };
+
+        Game.prototype.updateMapping = function (pinId, fieldId) {
+
+            for (var i = 0; i < this.pinMap.length; i++) {
+                var mapping = this.pinMap[i];
+                if (mapping.pinId === pinId) {
+                    mapping.fieldId = fieldId;
+                }
+            }
+        };
+
+        Game.prototype.getFieldMappedToPin = function (pinId) {
+            var mappingWithPin = this.getMappingForPin(pinId);
+            return this.board.getFieldByNumber(mappingWithPin.fieldId);
         };
 
         return Game;

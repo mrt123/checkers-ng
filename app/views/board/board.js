@@ -14,77 +14,81 @@ angular.module('app.board', ['ngRoute'])
             var game = new Game();    window.game = game;
             var board = game.board;     window.scope = scope;
 
-            // FIELDS
-            scope.fields = angular.copy(game.board.fields);
+            // Scope Fields
+            scope.fields = game.board.fields;
 
-            // PINS
+            // Scope Pins
             {
-                var fieldsWithPins = board.getFieldsWithPins();
                 var scopePins = [];
-
-                fieldsWithPins.forEach(function(field, index){
+                game.pinMap.forEach(function(mapping){
+                    var field = board.getFieldByNumber(mapping.fieldId);
+                    var pin = game.getPinById(mapping.pinId);
 
                     scopePins.push({
-                        color: field.getPin().color,
+                        color: pin.getColor(),
+                        id: pin.id,
                         top: field.center.y,
-                        left: field.center.x,
-                        field: field // directive still doesn't know about the field
+                        left: field.center.x
                     });
                 });
-                scope.pins = scopePins;
+                scope.pins = scopePins;  // used to generate pin directive
             }
-            scope.activeSquare = false;
+            scope.activeSquare = undefined;
 
             scope.pinHovers = function (destinationX, destinationY) {
                 removeHighlight(scope.activeSquare);
 
                 var pinDirective = this['pin'];
-                var hoveredField = board.getApproxField(destinationX, destinationY);
+                var sourceField = game.getFieldMappedToPin(pinDirective.id);
+                var targetField = board.getFieldAtXY(destinationX, destinationY);
 
-                if (hoveredField !== null) {
+                if (targetField !== null) {
 
-                    if (game.isMoveLegal(pinDirective.field, hoveredField)) {
-                        scope.activeSquare = scope.fields[hoveredField.number - 1];
+                    if (game.isMoveLegal(sourceField, targetField)) {
+                        scope.activeSquare = scope.fields[targetField.number - 1];
                         scope.activeSquare.actions.highlight();
                     }
                 }
             };
 
             scope.pinDrops = function (destinationX, destinationY) {
-
-                var hoveredField = board.getApproxField(destinationX, destinationY);
                 var pinDirective = this['pin'];
+                var sourceField = game.getFieldMappedToPin(pinDirective.id);
+                var targetField = board.getFieldAtXY(destinationX, destinationY);
 
-                if (hoveredField !== null) {
+                if (targetField !== null) {
                     removeHighlight(scope.activeSquare);
 
-                    if (game.isMoveLegal(pinDirective.field, hoveredField)) {
-                        var newFieldX = hoveredField.center.x - 30;
-                        var newFieldY = hoveredField.center.y - 30;
+                    if (game.isMoveLegal(sourceField, targetField)) { // drop the Pin
+                        var newFieldX = targetField.center.x - 30;
+                        var newFieldY = targetField.center.y - 30;
 
+                        //  show dropping of the Pin
                         pinDirective.api.leaveAt(newFieldX, newFieldY);
-                        //hoveredField.setPin(pin);
+
+                        // update game
+                        game.updateMapping(pinDirective.id, targetField.number)
                     }
                     else {
-                        returnPinToOrigin(pinDirective);
+                        returnPinToField(pinDirective, sourceField);
                     }
                 }
                 else {
-                    returnPinToOrigin(pinDirective);
+                    returnPinToField(pinDirective, sourceField);
                 }
             };
 
             // ---------- PRIVATE FUNCTIONS----START---  (privates tend to get exported to relevant Types/Services)
             function removeHighlight(square) {
-                if (square) {
+                if (square  !== undefined) {
                     square.actions.removeHighlight(); // bound to directive!
-                    scope.activeSquare = false;  // prevent repeat deHighlight if no new highlight been made!
+                    scope.activeSquare = undefined;  // prevent repeat deHighlight if no new highlight been made!
                 }
             }
 
-            function returnPinToOrigin(pin) {
-                var fieldX = pin.field.center.x - 30;
-                var fieldY = pin.field.center.y - 30;
+            function returnPinToField(pin, field) {
+                var fieldX = field.center.x - 30;
+                var fieldY = field.center.y - 30;
                 pin.api.animateTo(fieldX, fieldY);
             }
         }]

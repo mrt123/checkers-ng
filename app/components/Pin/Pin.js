@@ -1,16 +1,13 @@
 angular.module('app.Pin', []).factory('Pin',
     function () {
 
-        var Pin = function (color) {
+        var Pin = function (color, id) {
             this.color = color;
+            this.id = id;
         };
 
-        Pin.prototype.setColor = function() {
+        Pin.prototype.getColor = function() {
             return this.color;
-        };
-
-        Pin.prototype.setColor = function(ficoloreld) {
-            this.color = color;
         };
 
         return Pin;

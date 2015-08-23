@@ -7,10 +7,11 @@
                     color = "{{pin.color}}"
                     initcsstop = "{{pin.top}}"
                     initcssleft = "{{pin.left}}"
+                    id = "{{pin.id}}"
 
                     api="pin.api"
-                    on-drag="pinHovers(x, y)"
-                    on-drop="pinDrops(x, y)"
+                    on-drag="pinHovers(x, y, id)"
+                    on-drop="pinDrops(x, y, id)"
                     >
             </ch-pin>
         </div>

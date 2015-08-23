@@ -5,17 +5,15 @@ angular.module('app.Field', []).factory('Field', function () {
         this.number = number;
         this.row = row;
         this.column = column;
-        this.color = null;
-        this.setColor(this.row, number);
+        this.color = this.decideColor(this.row, number);
         this.center = {
             x : this.column * 60 - 30,
             y : this.row * 60 - 30
         };
         this.legalMoves = this.getLegalMoves();
-        this.pin = null;
     };
 
-    Field.prototype.getConditions = function(rowNo, fieldNo) {
+    Field.prototype.getColorConditions = function(rowNo, fieldNo) {
         var oddRow = rowNo % 2 == 1;
         var eveRow = (rowNo % 2 == 0);
         var oddNumber = fieldNo % 2 == 1;
@@ -26,25 +24,13 @@ angular.module('app.Field', []).factory('Field', function () {
         }
     };
 
-    Field.prototype.setColor = function(row, fieldNo) {
-        var conditions = this.getConditions(row, fieldNo);
-        this.color = conditions.blacks ? 'black' : 'white'
+    Field.prototype.decideColor = function(row, fieldNo) {
+        var conditions = this.getColorConditions(row, fieldNo);
+        return conditions.blacks ? 'black' : 'white'
     };
 
     Field.prototype.getColor = function() {
         return this.color;
-    };
-
-    Field.prototype.isEmpty = function() {
-        return this.pin === null;
-    };
-
-    Field.prototype.setPin = function(pin) {
-        this.pin = pin;
-    };
-
-    Field.prototype.getPin = function() {
-        return this.pin;
     };
 
     Field.prototype.getLegalMoves = function(){

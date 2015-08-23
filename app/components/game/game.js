@@ -20,8 +20,8 @@ angular.module('app.Game', []).factory('Game', [
         Game.prototype.isMoveLegal = function (startField, newField) {
             //var startField = this.board.fields[startFieldNumber-1];
             //var newField = this.board.fields[newFieldNumber-1];
-            var condition1 = startField.legalMoves.indexOf(newField.number) >= 0;
-            var condition2 = this.getMappingForField(newField.number) === undefined;
+            var condition1 = startField.legalMoves.indexOf(newField.id) >= 0;
+            var condition2 = this.getMappingForField(newField.id) === undefined;
             return condition1 && condition2;
         };
 
@@ -31,13 +31,13 @@ angular.module('app.Game', []).factory('Game', [
             fields.forEach(function (field) {
 
                 // PLAYER 1 fields
-                if (field.number >= 41) {
+                if (field.id >= 41) {
                     var pin = new Pin('black', pins.length);
                     pins.push(pin);
                 }
 
                 // PLAYER 2 fields
-                if (field.number <= 24) {
+                if (field.id <= 24) {
                     var pin = new Pin('white', pins.length);
                     pins.push(pin);
                 }
@@ -62,18 +62,18 @@ angular.module('app.Game', []).factory('Game', [
             playableFields.forEach(function (field) {
 
                 // PLAYER 1 fields
-                if (field.number >= 41) {
+                if (field.id >= 41) {
                     pinMap.push({
                         pinId: pinMap.length,
-                        fieldId: field.number
+                        fieldId: field.id
                     });
                 }
 
                 // PLAYER 2 fields
-                if (field.number <= 24) {
+                if (field.id <= 24) {
                     pinMap.push({
                         pinId: pinMap.length,
-                        fieldId: field.number
+                        fieldId: field.id
                     });
                 }
             }.bind(this));

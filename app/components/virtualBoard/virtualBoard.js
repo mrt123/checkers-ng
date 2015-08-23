@@ -26,7 +26,7 @@ angular.module('app.virtualBoard', []).factory('virtualBoard', [
 
         Board.prototype.getFieldByNumber = function (number) {
             return this.fields.filter(function (field) {
-                return field.number === number;
+                return field.id === number;
             })[0];
         };
 

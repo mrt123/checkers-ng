@@ -45,7 +45,7 @@ angular.module('app.board', ['ngRoute'])
                 if (targetField !== null) {
 
                     if (game.isMoveLegal(sourceField, targetField)) {
-                        scope.activeSquare = scope.fields[targetField.number - 1];
+                        scope.activeSquare = scope.fields[targetField.id - 1];
                         scope.activeSquare.actions.highlight();
                     }
                 }
@@ -67,7 +67,7 @@ angular.module('app.board', ['ngRoute'])
                         pinDirective.api.leaveAt(newFieldX, newFieldY);
 
                         // update game
-                        game.updateMapping(pinDirective.id, targetField.number)
+                        game.updateMapping(pinDirective.id, targetField.id)
                     }
                     else {
                         returnPinToField(pinDirective, sourceField);

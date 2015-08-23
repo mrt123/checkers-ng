@@ -2,7 +2,7 @@
 angular.module('app.Field', []).factory('Field', function () {
 
     var Field = function(number, row, column) {
-        this.number = number;
+        this.id = number;
         this.row = row;
         this.column = column;
         this.color = this.decideColor(this.row, number);
@@ -40,10 +40,10 @@ angular.module('app.Field', []).factory('Field', function () {
 
         if (this.row > 1 && this.color === 'black') {
             if (!onRightEdge) {
-                legalMoves.push(this.number -7);
+                legalMoves.push(this.id -7);
             }
             if (!onLeftEdge) {
-                legalMoves.push(this.number -9);
+                legalMoves.push(this.id -9);
             }
         }
         return legalMoves;

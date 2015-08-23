@@ -18,6 +18,9 @@ angular.module('ch-pin', []).
                 reportDrop: '&onDrop'
             },
             link: function (scope, element, attr) {
+                var zIndexDefault = 100;
+                var zIndexActive = 101;
+                element.css({'z-index': zIndexDefault});
 
                 scope.api = {
                     leaveAt: stay.bind(undefined, element),
@@ -31,21 +34,19 @@ angular.module('ch-pin', []).
                 startY = attr.initcsstop - 30;
                 setStart(startX, startY);
                 moveToXY(element, startX, startY);
-                element.on('mousedown', function(event){
-                    mouseDown(event, this)
-                });
+                element.on('mousedown', mouseDown);
 
                 function setStart(x, y) {
                     startX = x;
                     startY = y;
                 }
 
-                function mouseDown(event, directive) {
+                function mouseDown(event) {
                     event.preventDefault();     // Prevent 'default' browser highlight of selected content
+                    element.css({'z-index': zIndexActive});
 
                     markX = event.pageX;
                     markY = event.pageY;
-                    console.log(444)
                     $document.on('mousemove', mouseMove);
                     $document.on('mouseup', mouseUp);
                     element.addClass('active');
@@ -75,6 +76,7 @@ angular.module('ch-pin', []).
                     $document.off('mousemove', mouseMove);
                     $document.off('mouseup', mouseUp);
                     element.removeClass('active');
+                    element.css({'z-index': zIndexDefault});
                 }
 
                 function getCenterXY() {

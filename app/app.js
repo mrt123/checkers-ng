@@ -14,7 +14,7 @@ app.config([
                 controller: 'UserCtrl'
             })
             .state('user.game', {
-                url: '/game',w
+                url: '/game',
                 views: {
                     'game': {
                         templateUrl: 'views/game/game.html',

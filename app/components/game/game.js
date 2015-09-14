@@ -12,7 +12,7 @@ angular.module('app.Game', []).factory('Game', [
 
         var Game = function () {
             this.board = new Board();
-            this.pins = this.allocatePins(this.board.getFieldsByColor('black'));
+            this.pins = this.generatePins(this.board.getFieldsByColor('black'));
             this.pinMap = this.generatePinMap(this.board.getFieldsByColor('black'));
 
         };
@@ -25,7 +25,7 @@ angular.module('app.Game', []).factory('Game', [
             return condition1 && condition2;
         };
 
-        Game.prototype.allocatePins = function (fields) {
+        Game.prototype.generatePins = function (fields) {
 
             var pins = [];
             fields.forEach(function (field) {
@@ -95,13 +95,8 @@ angular.module('app.Game', []).factory('Game', [
         };
 
         Game.prototype.updateMapping = function (pinId, fieldId) {
-
-            for (var i = 0; i < this.pinMap.length; i++) {
-                var mapping = this.pinMap[i];
-                if (mapping.pinId === pinId) {
-                    mapping.fieldId = fieldId;
-                }
-            }
+            var mapping = this.getMappingForPin(pinId);
+            mapping.fieldId = fieldId;
         };
 
         Game.prototype.getFieldMappedToPin = function (pinId) {

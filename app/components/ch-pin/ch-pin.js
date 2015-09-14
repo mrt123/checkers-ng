@@ -81,7 +81,6 @@ angular.module('ch-pin', []).
                     $document.off('mousemove', mouseMove);
                     $document.off('mouseup', mouseUp);
                     element.removeClass('active');
-                    element.css({'z-index': zIndexDefault});
                 }
 
                 function getCenterXY() {
@@ -109,6 +108,7 @@ angular.module('ch-pin', []).
                         top: y + 'px'
                     }, 500, function () {
                         // Animation complete.
+                        element.css({'z-index': zIndexDefault});
                     });
                 }
             },

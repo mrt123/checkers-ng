@@ -2,13 +2,16 @@
   "name": "ng-checkers",
   "version": "0.0.1",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.13.3"
+  },
   "devDependencies": {
     "browser-sync": "*",
     "gulp": "*",
     "gulp-angular-modules": "^0.1.8",
     "gulp-concat": "*",
     "gulp-debug": "^2.1.0",
+    "gulp-express": "^0.3.5",
     "gulp-less": "*",
     "gulp-sourcemaps": "*"
   }

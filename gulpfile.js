@@ -6,6 +6,10 @@ var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
+var proxy = require('proxy-middleware');
+var url = require('url');
+var gulp_express = require('gulp-express');
+
 var jsFiles = [
     "./app/*.js",
     "./app/views/**/*.js",
@@ -78,11 +82,25 @@ gulp.task('move-dev-assets', function () {
         .pipe(gulp.dest("./app/build/dev/"));
 });
 
+
+gulp.task('restServer', function() {
+    var restAppSrc = './app/rest/';
+    var expressApp = restAppSrc + 'api.js';
+    gulp_express.run([expressApp]);
+    gulp.watch([restAppSrc + '**/*.js'], [gulp_express.run]);
+});
+
 // watch files for changes and reload (order of dependencies matters).
-gulp.task('serve', ['less', 'modules', 'concat', 'move-dev-assets'], function () {
+gulp.task('serve', ['less', 'modules', 'concat', 'move-dev-assets', 'restServer'], function () {
+
+    var urlObj = url.parse('http://localhost:3005/api');
+    urlObj.route = '/api';
+
     devServer.init({
+        port: 3000,
         server: {
-            baseDir: 'app'
+            baseDir: 'app',
+            middleware: [proxy(urlObj)]
         },
         open: false
     });

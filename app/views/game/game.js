@@ -2,7 +2,8 @@ angular.module('app.game', [])
     .controller('GameCtrl', [
         '$scope',
         '$state',
-        function (scope, state) {
+        'gameState',
+        function (scope, state, gameState) {
             state.go('user.game.board');
 
             if (!_dev.debug)  scope.toggleClass = 'off';

@@ -79,7 +79,6 @@ angular.module('app.Game', []).factory('Game', [
             }.bind(this));
 
             return pinMap;
-
         };
 
         Game.prototype.getMappingForPin = function (pinId) {
@@ -102,6 +101,11 @@ angular.module('app.Game', []).factory('Game', [
         Game.prototype.getFieldMappedToPin = function (pinId) {
             var mappingWithPin = this.getMappingForPin(pinId);
             return this.board.getFieldByNumber(mappingWithPin.fieldId);
+        };
+
+        // GAME STATUS
+        Game.prototype.isMyTurn = function(){
+
         };
 
         return Game;

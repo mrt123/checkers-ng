@@ -13,6 +13,11 @@ app.config([
                 templateUrl: 'views/user/user.html',
                 controller: 'UserCtrl'
             })
+            .state('index', {
+                url: '',
+                templateUrl: 'views/index/index.html',
+                controller: 'IndexCtrl'
+            })
             .state('user.game', {
                 url: '/game',
                 views: {

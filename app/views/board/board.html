@@ -1,6 +1,16 @@
 <div id="board_frame">
-    <div id="board">
-        <div id="pin_surface">
+        <div class="fieldHolder">
+            <div ng-repeat="field in fields">
+                <ch-square
+                    color="{{field.color}}"
+                    number="{{field.id}}"
+                    actions="field.actions"
+                    >
+                </ch-square>
+            </div>
+        </div>
+
+        <div class="pinHolder">
             <ch-pin ng-repeat="pin in pins"
                     ng-class="pin.color"
 
@@ -12,17 +22,7 @@
                     api="pin.api"
                     on-drag="pinHovers(x, y, id)"
                     on-drop="pinDrops(x, y, id)"
-                    >
+                >
             </ch-pin>
         </div>
-
-        <div ng-repeat="field in fields">
-            <ch-square
-                    color="{{field.color}}"
-                    number="{{field.id}}"
-                    actions="field.actions"
-                    >
-            </ch-square>
-        </div>
-    </div>
 </div>

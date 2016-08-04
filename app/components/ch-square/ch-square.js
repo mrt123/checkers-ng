@@ -1,8 +1,7 @@
 angular.module('ch-square', []).directive('chSquare', [function () {
 
     return {
-        restrict: 'E', //directive to be used as element only!
-        // isolated scope
+        restrict: 'E',
         scope: {
             // @ assign string representation (one way)
             // = assign actual scope model (two way) - can be used for controls

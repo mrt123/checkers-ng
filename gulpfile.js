@@ -97,7 +97,7 @@ gulp.task('serve', ['less', 'modules', 'concat', 'move-dev-assets'], function ()
     urlObj.route = '/api';
 
     devServer.init({
-        port: 3000,
+        port: 3005,
         server: {
             baseDir: 'app',
             middleware: [proxy(urlObj)]

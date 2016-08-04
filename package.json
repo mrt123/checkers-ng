@@ -13,6 +13,7 @@
     "gulp-debug": "^2.1.0",
     "gulp-express": "^0.3.5",
     "gulp-less": "*",
-    "gulp-sourcemaps": "*"
+    "gulp-sourcemaps": "*",
+    "proxy-middleware": "^0.15.0"
   }
 }

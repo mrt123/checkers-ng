@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 
-var GameMaster = require('./GameMaster.js');
+//var GameMaster = require('./GameMaster.js');
 
 app.get('/api', function (req, res) {
     res.send('Hello World!');
@@ -9,7 +9,7 @@ app.get('/api', function (req, res) {
 
 app.post('/api/game', function (req, res) {
 
-    var game = new GameMaster();
+    //var game = new GameMaster();
 
     res.send({
         message: 'So you want a new game huh?',

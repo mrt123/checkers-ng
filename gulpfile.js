@@ -91,7 +91,7 @@ gulp.task('restServer', function() {
 });
 
 // watch files for changes and reload (order of dependencies matters).
-gulp.task('serve', ['less', 'modules', 'concat', 'move-dev-assets', 'restServer'], function () {
+gulp.task('serve', ['less', 'modules', 'concat', 'move-dev-assets'], function () {
 
     var urlObj = url.parse('http://localhost:3005/api');
     urlObj.route = '/api';

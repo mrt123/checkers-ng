@@ -1,5 +1,5 @@
-angular.module('app.Game', []).factory('Game', [
-    'virtualBoard',
+angular.module('Game', []).factory('Game', [
+    'Board',
     'Pin',
     function (Board, Pin) {
 
@@ -12,7 +12,7 @@ angular.module('app.Game', []).factory('Game', [
 
         var Game = function () {
             this.board = new Board();
-            this.pins = this.generatePins(this.board.getFieldsByColor('black'));
+            this.pins = this.allocatePins(this.board.getFieldsByColor('black'));
             this.pinMap = this.generatePinMap(this.board.getFieldsByColor('black'));
 
         };
@@ -25,7 +25,7 @@ angular.module('app.Game', []).factory('Game', [
             return condition1 && condition2;
         };
 
-        Game.prototype.generatePins = function (fields) {
+        Game.prototype.allocatePins = function (fields) {
 
             var pins = [];
             fields.forEach(function (field) {
@@ -79,6 +79,7 @@ angular.module('app.Game', []).factory('Game', [
             }.bind(this));
 
             return pinMap;
+
         };
 
         Game.prototype.getMappingForPin = function (pinId) {
@@ -94,18 +95,18 @@ angular.module('app.Game', []).factory('Game', [
         };
 
         Game.prototype.updateMapping = function (pinId, fieldId) {
-            var mapping = this.getMappingForPin(pinId);
-            mapping.fieldId = fieldId;
+
+            for (var i = 0; i < this.pinMap.length; i++) {
+                var mapping = this.pinMap[i];
+                if (mapping.pinId === pinId) {
+                    mapping.fieldId = fieldId;
+                }
+            }
         };
 
         Game.prototype.getFieldMappedToPin = function (pinId) {
             var mappingWithPin = this.getMappingForPin(pinId);
             return this.board.getFieldByNumber(mappingWithPin.fieldId);
-        };
-
-        // GAME STATUS
-        Game.prototype.isMyTurn = function(){
-
         };
 
         return Game;

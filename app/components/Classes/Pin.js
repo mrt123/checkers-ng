@@ -1,4 +1,4 @@
-angular.module('app.Pin', []).factory('Pin',
+angular.module('Pin', []).factory('Pin',
     function () {
 
         var Pin = function (color, id) {

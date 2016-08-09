@@ -1,4 +1,4 @@
-angular.module('app.virtualBoard', []).factory('virtualBoard', [
+angular.module('Board', []).factory('Board', [
     'Field',
     'Pin',
     function (Field, Pin) {

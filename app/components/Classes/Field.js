@@ -1,5 +1,4 @@
-// https://www.youtube.com/watch?v=J6qr6Wx3VPs
-angular.module('app.Field', []).factory('Field', function () {
+angular.module('Field', []).factory('Field', function () {
 
     var Field = function(number, row, column) {
         this.id = number;
